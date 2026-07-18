@@ -60,21 +60,15 @@ html[lang="en"] .si{display:none !important;}
 .cursor-ring.is-active{width:58px;height:58px;background:rgba(196,247,44,.14);}
 @media (hover:none){.cursor,.cursor-ring{display:none;}}
 
-/* ================= PRELOADER — pulse / power ================= */
-.preloader{position:fixed;inset:0;z-index:9998;background:var(--ink-deep);display:flex;align-items:center;justify-content:center;overflow:hidden;}
-.preloader__core{width:min(680px,86vw);display:flex;flex-direction:column;gap:34px;}
-.preloader__word{display:flex;overflow:hidden;justify-content:center;}
-.preloader__word i{font-family:var(--font-display);font-style:normal;font-weight:700;font-size:clamp(40px,8.5vw,92px);line-height:1;text-transform:uppercase;color:var(--bone);will-change:transform;}
-.preloader__word i.v{color:var(--volt);}
-.preloader__ecg{position:relative;height:110px;}
-.preloader__ecg svg{width:100%;height:100%;overflow:visible;}
-.preloader__ecg path{fill:none;stroke:var(--volt);stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round;filter:drop-shadow(0 0 8px rgba(196,247,44,.55));}
-.preloader__ecg::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,var(--ink-deep),transparent 12%,transparent 88%,var(--ink-deep));pointer-events:none;}
-.preloader__meta{display:flex;justify-content:space-between;align-items:end;font-family:var(--font-mono);font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--bone-soft);}
-.preloader__bpm{color:var(--volt);font-size:13px;}
-.preloader__bpm b{font-family:var(--font-display);font-weight:700;font-size:30px;letter-spacing:0;margin-right:8px;font-variant-numeric:tabular-nums;}
-.preloader__bar{width:100%;height:2px;background:rgba(255,253,238,.12);overflow:hidden;}
+/* ================= PRELOADER — counter ================= */
+.preloader{position:fixed;inset:0;z-index:9998;background:var(--ink-deep);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:28px;overflow:hidden;}
+.preloader__logo{width:78px;opacity:0;}
+.preloader__logo path{fill:var(--volt);}
+.preloader__count{font-family:var(--font-display);font-weight:700;font-size:clamp(70px,15vw,170px);color:var(--bone);line-height:1;font-variant-numeric:tabular-nums;}
+.preloader__count small{font-size:.3em;color:var(--volt);vertical-align:super;}
+.preloader__bar{width:min(420px,72vw);height:2px;background:rgba(255,253,238,.14);overflow:hidden;}
 .preloader__bar i{display:block;height:100%;width:0;background:var(--volt);box-shadow:0 0 12px rgba(196,247,44,.7);}
+.preloader__tag{font-family:var(--font-mono);font-size:11px;letter-spacing:.4em;text-transform:uppercase;color:var(--bone-soft);}
 .preloader__wipe{position:absolute;inset:0;background:var(--volt);transform:translateY(101%);z-index:2;}
 
 /* ================= NAV — floating glass ================= */
@@ -450,21 +444,12 @@ html[lang="en"] .si{display:none !important;}
 <div class="cursor"></div>
 <div class="cursor-ring"></div>
 
-<!-- PRELOADER — pulse / power meter -->
+<!-- PRELOADER — counter -->
 <div class="preloader" id="preloader">
-  <div class="preloader__core">
-    <div class="preloader__word" id="plWord"></div>
-    <div class="preloader__ecg">
-      <svg viewBox="0 0 600 120" preserveAspectRatio="none">
-        <path id="ecgPath" d="M0,60 L96,60 L118,60 L130,24 L142,96 L154,60 L216,60 L262,60 L276,16 L290,102 L304,60 L392,60 L436,60 L452,10 L468,108 L484,60 L600,60"/>
-      </svg>
-    </div>
-    <div class="preloader__bar"><i id="plBar"></i></div>
-    <div class="preloader__meta">
-      <span class="preloader__bpm"><b id="plBpm">62</b>BPM</span>
-      <span><span class="si">MOČ SE NALAGA</span><span class="en">LOADING POWER</span></span>
-    </div>
-  </div>
+  <svg class="preloader__logo" viewBox="0 0 77 48" xmlns="http://www.w3.org/2000/svg"><path d="M27.1059 23.7511L26.5773 23.2215H18.5404L18.0706 23.6922L16.1687 25.6021L4.51765 37.274V26.729L3.39275 25.6021L1.02099 23.2215L0 22.1987V47.8008L0.198776 48L4.51765 43.6734L6.58673 41.6006L6.86231 41.3245L9.03529 39.1476L9.78071 38.4009L11.38 36.7988L12.9747 35.2012L13.5529 34.6219L15.8976 32.273L16.1687 32.0015L18.0706 30.0961L19.3626 28.8018L20.4152 27.7473H24.7025L25.7551 28.8018L27.1059 30.155V42.9538L28.9491 44.8003L29.9972 45.8502L31.6235 47.4795V28.2813L28.9491 25.6021L27.1059 23.7511Z"/><path d="M47.6092 18.6958L45.1742 16.2565L44.9167 15.9985L41.7227 12.7988L40.6565 11.7307V7.46747L41.7227 6.3994L44.9618 9.64435L45.1742 9.85706L48.1106 12.7988L49.4795 14.1701L49.6918 14.3828L51.3091 15.9985L53.1343 14.1701L54.2095 13.093V9.64435H51.3543L51.3091 9.59909L49.6918 7.98341L48.1106 6.3994L46.8321 5.11861L45.1742 3.45767L44.9167 3.1997L41.7227 0L38.5287 3.1997L36.1389 0.805582L35.9265 0.592872L35.3347 0L25.7076 9.64435H22.5859V12.8259L23.9277 14.1701L25.7528 15.9985L35.3347 6.3994L36.1389 7.20498V11.9932L35.3347 12.7988L33.9659 14.1701L32.1408 15.9985L31.6212 16.519L29.4482 18.6958L28.9468 19.1982L31.6212 21.8774L32.1408 22.3979L35.3347 19.1982L35.8362 18.6958L36.1389 18.3926V45.6059L36.3828 45.8503L38.5287 48L40.6565 45.8684V18.1301L41.7227 19.1982L44.9167 22.3979L48.1106 19.1982L47.6092 18.6958Z"/><path d="M76.0364 23.2218L73.6647 25.6023L72.2778 26.9917V37.0117L72.0654 36.799L70.4707 35.2014L67.7601 32.4859L67.5478 32.2732L64.0827 28.802L63.2425 27.9602L63.0301 27.7475L60.8888 25.6023L58.7248 23.4299L58.517 23.2218H50.4846L45.1719 28.544V41.3247H45.1899L45.1719 41.3428V47.7422L47.0603 45.8505L48.1083 44.8005L49.6895 43.2165V30.4177L51.3068 28.802L52.3595 27.7475H56.6422L57.6948 28.802L58.7248 29.8339L60.8888 32.0017L61.1598 32.2732L63.2425 34.3596L64.0827 35.2014L67.2767 38.4011L67.7601 38.8853L70.1951 41.3247L70.4707 41.6008L72.2778 43.4111L73.6647 44.8005L74.7128 45.8505L76.7954 47.9368V22.4614L76.0364 23.2218Z"/></svg>
+  <div class="preloader__count"><span id="plCount">0</span><small>%</small></div>
+  <div class="preloader__bar"><i id="plBar"></i></div>
+  <div class="preloader__tag">2FIT2FAIL — <span class="si">nalagam formo</span><span class="en">loading the grind</span></div>
   <div class="preloader__wipe" id="plWipe"></div>
 </div>
 
@@ -511,15 +496,11 @@ html[lang="en"] .si{display:none !important;}
     </div>
 
     <div class="hero__portrait" id="heroPortrait">
-<<<<<<< HEAD
       <div class="frame" id="heroFrame">
         <img src="assets/zhp.png" alt="Žan Hočevar Peganc — osebni trener" fetchpriority="high">
         <div class="light"></div>
         <div class="grain"></div>
       </div>
-=======
-      <img src="zhp.png" alt="Žan Hočevar Peganc — osebni trener" fetchpriority="high">
->>>>>>> abb3b28e10950f29203d63fe838399c6fb2e7c6d
     </div>
 
     <div class="hero__title">
@@ -676,15 +657,11 @@ html[lang="en"] .si{display:none !important;}
     </div>
     <div class="stats__portrait" data-anim="fade" id="statsPortrait">
       <span class="stats__label">ŽAN — 2FIT2FAIL</span>
-<<<<<<< HEAD
       <div class="frame">
         <img src="assets/zhp.png" alt="Žan Hočevar Peganc" loading="lazy">
         <div class="light"></div>
         <div class="grain"></div>
       </div>
-=======
-      <img src="zhp.png" alt="Žan Hočevar Peganc" loading="lazy">
->>>>>>> abb3b28e10950f29203d63fe838399c6fb2e7c6d
     </div>
     <div class="stats__col stats__col--r">
       <div class="stat" data-anim="fade"><b>−13<em> kg</em></b><span class="si">Rezultat Goranove transformacije — največji med objavljenimi.</span><span class="en">Goran's transformation result — the biggest published one.</span></div>
@@ -1111,6 +1088,9 @@ function setLang(lang){
   requestAnimationFrame(()=>Nav.syncInd(false));
 }
 let savedLang='si';try{savedLang=localStorage.getItem('lang')||'si';}catch(e){}
+document.getElementById('langToggle').addEventListener('click',()=>{
+  setLang(document.documentElement.lang==='si'?'en':'si');
+});
 
 /* ============ CURSOR ============ */
 (function(){
@@ -1294,37 +1274,20 @@ const Morph=(function(){
   });
 })();
 
-/* ============ PRELOADER — pulse ramp ============ */
+/* ============ PRELOADER — counter ============ */
 (function(){
   const pl=document.getElementById('preloader');
-  const word=document.getElementById('plWord');
+  const count=document.getElementById('plCount');
   const bar=document.getElementById('plBar');
-  const bpm=document.getElementById('plBpm');
   const wipe=document.getElementById('plWipe');
-  const path=document.getElementById('ecgPath');
   document.body.style.overflow='hidden';
-  /* kinetic wordmark */
-  '2FIT2FAIL'.split('').forEach((ch,i)=>{
-    const el=document.createElement('i');
-    el.textContent=ch;
-    if(ch==='2')el.classList.add('v');
-    word.appendChild(el);
-  });
-  const letters=word.querySelectorAll('i');
-  let len=600;
-  try{len=path.getTotalLength();}catch(e){}
-  path.style.strokeDasharray=len;
-  path.style.strokeDashoffset=len;
-  const state={v:0,b:62};
-  const dur=reduceMotion?.3:2.1;
+  const state={v:0};
   const tl=gsap.timeline({onComplete:finish});
-  tl.from(letters,{yPercent:118,duration:.8,stagger:.05,ease:'power4.out'},0)
-    .to(path,{strokeDashoffset:0,duration:dur,ease:'power2.inOut'},0.15)
-    .to(state,{v:100,b:132,duration:dur,ease:'power2.inOut',
-      onUpdate:()=>{bar.style.width=state.v+'%';bpm.textContent=Math.round(state.b);}},0.15)
-    .to(letters,{yPercent:-118,duration:.6,stagger:.04,ease:'power3.in'},'-=.35');
+  tl.to('.preloader__logo',{opacity:1,duration:.5,ease:'power2.out'})
+    .to(state,{v:100,duration:reduceMotion?.2:1.9,ease:'power3.inOut',
+      onUpdate:()=>{count.textContent=Math.round(state.v);bar.style.width=state.v+'%';}},0);
   function finish(){
-    gsap.set(wipe,{clearProps:'transform',yPercent:101});
+    gsap.set(wipe,{yPercent:101});
     gsap.to(wipe,{yPercent:0,duration:.6,ease:'power4.inOut',onComplete:()=>{
       gsap.to(pl,{yPercent:-100,duration:.75,ease:'power4.inOut',
         onComplete:()=>{pl.remove();document.body.style.overflow='';heroIn();}});
