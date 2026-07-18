@@ -1,0 +1,1209 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>2FIT2FAIL — Osebno trenerstvo | Žan Hočevar Peganc</title>
+<meta name="description" content="Osebno trenerstvo Žan Hočevar Peganc. Individualni treningi, online coaching, svetovanje in transformacije. Ljubljana.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=Archivo:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --volt:#C4F72C;
+  --ink:#231F20;
+  --bone:#FFFDEE;
+  --ink-soft:rgba(35,31,32,.62);
+  --bone-soft:rgba(255,253,238,.55);
+  --font-display:'Chakra Petch',sans-serif;
+  --font-body:'Archivo',sans-serif;
+  --font-mono:'IBM Plex Mono',monospace;
+  --nav-h:84px;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+html,body{background:var(--ink);color:var(--bone);}
+body{
+  font-family:var(--font-body);
+  font-size:16px;line-height:1.6;
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+::selection{background:var(--volt);color:var(--ink);}
+img{display:block;max-width:100%;}
+a{color:inherit;text-decoration:none;}
+button{font-family:inherit;cursor:pointer;}
+h1,h2,h3,h4{font-family:var(--font-display);text-transform:uppercase;line-height:1.02;letter-spacing:-.01em;}
+
+/* ---------- language toggle ---------- */
+html[lang="si"] .en{display:none !important;}
+html[lang="en"] .si{display:none !important;}
+
+/* ---------- noise + halftone utilities ---------- */
+.noise{
+  pointer-events:none;position:fixed;inset:-50%;z-index:9990;opacity:.05;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation:grain 8s steps(10) infinite;
+}
+@keyframes grain{
+  0%,100%{transform:translate(0,0)}10%{transform:translate(-5%,-5%)}30%{transform:translate(3%,-2%)}
+  50%{transform:translate(-2%,4%)}70%{transform:translate(4%,2%)}90%{transform:translate(-3%,3%)}
+}
+.dotfield{
+  background-image:radial-gradient(currentColor 1.1px, transparent 1.1px);
+  background-size:12px 12px;
+}
+
+/* ---------- cursor ---------- */
+.cursor,.cursor-ring{position:fixed;top:0;left:0;pointer-events:none;z-index:9999;border-radius:50%;transform:translate(-50%,-50%);}
+.cursor{width:8px;height:8px;background:var(--volt);mix-blend-mode:difference;}
+.cursor-ring{width:36px;height:36px;border:1.5px solid var(--volt);mix-blend-mode:difference;transition:width .3s,height .3s,background .3s;}
+.cursor-ring.is-active{width:64px;height:64px;background:rgba(196,247,44,.15);}
+@media (hover:none){.cursor,.cursor-ring{display:none;}}
+
+/* ---------- preloader ---------- */
+.preloader{position:fixed;inset:0;z-index:9998;background:var(--ink);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:24px;}
+.preloader__logo{width:96px;opacity:0;}
+.preloader__logo path{fill:var(--bone);}
+.preloader__count{font-family:var(--font-display);font-weight:700;font-size:clamp(64px,14vw,160px);color:var(--volt);line-height:1;font-variant-numeric:tabular-nums;}
+.preloader__bar{width:min(400px,70vw);height:2px;background:rgba(255,253,238,.15);overflow:hidden;}
+.preloader__bar i{display:block;height:100%;width:0;background:var(--volt);}
+.preloader__tag{font-family:var(--font-mono);font-size:11px;letter-spacing:.35em;text-transform:uppercase;color:var(--bone-soft);}
+
+/* ---------- nav ---------- */
+.nav{
+  position:fixed;top:0;left:0;right:0;z-index:900;height:var(--nav-h);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 clamp(20px,4vw,56px);
+  transition:background .4s,backdrop-filter .4s,height .4s,transform .5s;
+}
+.nav.is-scrolled{background:rgba(35,31,32,.85);backdrop-filter:blur(14px);height:68px;border-bottom:1px solid rgba(255,253,238,.08);}
+.nav.is-hidden{transform:translateY(-100%);}
+.nav__logo{display:flex;align-items:center;gap:14px;}
+.nav__logo svg{width:52px;height:auto;}
+.nav__logo svg path{fill:var(--bone);transition:fill .3s;}
+.nav__wordmark{font-family:var(--font-display);font-weight:700;font-size:15px;letter-spacing:.12em;text-transform:uppercase;}
+.nav__wordmark em{color:var(--volt);font-style:normal;}
+.nav__links{display:flex;gap:36px;align-items:center;}
+.nav__links a{font-family:var(--font-mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;position:relative;padding:6px 0;}
+.nav__links a::after{content:"";position:absolute;left:0;bottom:0;width:100%;height:1px;background:var(--volt);transform:scaleX(0);transform-origin:right;transition:transform .35s cubic-bezier(.6,0,.2,1);}
+.nav__links a:hover::after{transform:scaleX(1);transform-origin:left;}
+.nav__right{display:flex;align-items:center;gap:18px;}
+.lang-toggle{
+  display:flex;border:1px solid rgba(255,253,238,.25);font-family:var(--font-mono);font-size:11px;letter-spacing:.1em;background:transparent;color:var(--bone);overflow:hidden;
+}
+.lang-toggle span{padding:7px 12px;transition:.3s;}
+.lang-toggle span.on{background:var(--volt);color:var(--ink);font-weight:500;}
+.nav__cta{display:inline-flex;}
+.burger{display:none;background:none;border:none;width:44px;height:44px;position:relative;z-index:1001;}
+.burger i{position:absolute;left:10px;right:10px;height:2px;background:var(--bone);transition:.35s;}
+.burger i:nth-child(1){top:16px;}
+.burger i:nth-child(2){top:26px;}
+.burger.open i:nth-child(1){top:21px;transform:rotate(45deg);background:var(--volt);}
+.burger.open i:nth-child(2){top:21px;transform:rotate(-45deg);background:var(--volt);}
+
+.mobile-menu{position:fixed;inset:0;z-index:950;background:var(--ink);display:flex;flex-direction:column;justify-content:center;padding:0 8vw;gap:8px;clip-path:inset(0 0 100% 0);transition:clip-path .6s cubic-bezier(.7,0,.2,1);}
+.mobile-menu.open{clip-path:inset(0 0 0% 0);}
+.mobile-menu a{font-family:var(--font-display);font-weight:700;font-size:clamp(32px,9vw,56px);text-transform:uppercase;color:var(--bone);border-bottom:1px solid rgba(255,253,238,.1);padding:12px 0;display:flex;justify-content:space-between;align-items:center;}
+.mobile-menu a small{font-family:var(--font-mono);font-size:11px;color:var(--volt);letter-spacing:.2em;}
+.mobile-menu a:hover{color:var(--volt);}
+
+/* ---------- buttons ---------- */
+.btn{
+  display:inline-flex;align-items:center;gap:12px;
+  font-family:var(--font-display);font-weight:600;font-size:14px;letter-spacing:.08em;text-transform:uppercase;
+  padding:16px 30px;border:1.5px solid var(--ink);position:relative;overflow:hidden;isolation:isolate;
+  transition:color .35s;white-space:nowrap;
+}
+.btn::before{content:"";position:absolute;inset:0;z-index:-1;transform:translateY(101%);transition:transform .4s cubic-bezier(.7,0,.2,1);}
+.btn:hover::before{transform:translateY(0);}
+.btn--volt{background:var(--volt);color:var(--ink);border-color:var(--volt);}
+.btn--volt::before{background:var(--bone);}
+.btn--ink{background:var(--ink);color:var(--volt);border-color:var(--ink);}
+.btn--ink::before{background:var(--volt);}
+.btn--ink:hover{color:var(--ink);}
+.btn--ghost{background:transparent;color:var(--bone);border-color:rgba(255,253,238,.4);}
+.btn--ghost::before{background:var(--volt);}
+.btn--ghost:hover{color:var(--ink);}
+.btn--ghost-ink{background:transparent;color:var(--ink);border-color:var(--ink);}
+.btn--ghost-ink::before{background:var(--ink);}
+.btn--ghost-ink:hover{color:var(--volt);}
+.btn svg{width:14px;height:14px;transition:transform .35s;}
+.btn:hover svg{transform:translate(3px,-3px);}
+.btn--sm{padding:11px 20px;font-size:12px;}
+
+/* ---------- layout helpers ---------- */
+.section{padding:clamp(80px,10vw,150px) clamp(20px,5vw,72px);position:relative;overflow:hidden;}
+.section--volt{background:var(--volt);color:var(--ink);}
+.section--bone{background:var(--bone);color:var(--ink);}
+.section--ink{background:var(--ink);color:var(--bone);}
+.eyebrow{
+  display:inline-flex;align-items:center;gap:10px;
+  font-family:var(--font-mono);font-size:12px;letter-spacing:.3em;text-transform:uppercase;margin-bottom:28px;
+}
+.eyebrow::before{content:"";width:34px;height:8px;background-image:radial-gradient(currentColor 1.4px,transparent 1.4px);background-size:8px 8px;}
+.h-xl{font-size:clamp(44px,7.4vw,110px);font-weight:700;}
+.h-lg{font-size:clamp(34px,5vw,72px);font-weight:700;}
+.h-md{font-size:clamp(22px,2.6vw,34px);font-weight:600;}
+.lead{font-size:clamp(16px,1.4vw,20px);max-width:620px;}
+.reveal-line{display:block;overflow:hidden;}
+.reveal-line > span{display:block;will-change:transform;}
+
+/* ---------- hero ---------- */
+.hero{
+  min-height:100svh;background:var(--volt);color:var(--ink);position:relative;overflow:hidden;
+  display:flex;flex-direction:column;justify-content:flex-end;
+  padding:calc(var(--nav-h) + 20px) clamp(20px,5vw,72px) 0;
+}
+#dots-canvas{position:absolute;inset:0;width:100%;height:100%;z-index:0;}
+.hero__inner{position:relative;z-index:2;display:grid;grid-template-columns:1.25fr .9fr;gap:32px;align-items:end;}
+.hero__meta{font-family:var(--font-mono);font-size:12px;letter-spacing:.25em;text-transform:uppercase;display:flex;gap:28px;flex-wrap:wrap;margin-bottom:26px;color:var(--ink-soft);}
+.hero__meta b{color:var(--ink);font-weight:500;}
+.hero h1{font-size:clamp(48px,9.2vw,150px);font-weight:700;letter-spacing:-.02em;}
+.hero h1 .stroke{color:transparent;-webkit-text-stroke:2px var(--ink);}
+.hero__sub{margin:30px 0 36px;max-width:520px;font-size:clamp(15px,1.3vw,19px);color:var(--ink);}
+.hero__ctas{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:56px;}
+.hero__portrait{position:relative;align-self:end;pointer-events:none;}
+.hero__portrait img{width:min(46vw,560px);margin:0 auto;filter:contrast(1.05);transform-origin:bottom center;}
+.hero__blob{position:absolute;inset:auto 0 0 0;height:78%;background:var(--ink);z-index:-1;clip-path:polygon(8% 100%,0 22%,18% 0,86% 6%,100% 34%,94% 100%);opacity:.06;}
+.hero__scroll{
+  position:absolute;bottom:28px;left:clamp(20px,5vw,72px);z-index:3;
+  font-family:var(--font-mono);font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--ink-soft);
+  display:flex;align-items:center;gap:12px;
+}
+.hero__scroll i{display:block;width:1px;height:44px;background:var(--ink);animation:scrollpulse 1.6s ease-in-out infinite;transform-origin:top;}
+@keyframes scrollpulse{0%{transform:scaleY(0);opacity:1}60%{transform:scaleY(1)}100%{transform:scaleY(1);opacity:0}}
+.hero__badge{
+  position:absolute;z-index:3;right:clamp(20px,5vw,72px);top:calc(var(--nav-h) + 26px);
+  width:118px;height:118px;animation:spin 14s linear infinite;
+}
+.hero__badge svg{width:100%;height:100%;}
+.hero__badge text{font-family:var(--font-mono);font-size:10.5px;letter-spacing:.32em;text-transform:uppercase;fill:var(--ink);}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ---------- marquee ---------- */
+.marquee{background:var(--ink);color:var(--bone);border-top:2px solid var(--ink);overflow:hidden;padding:20px 0;position:relative;z-index:2;}
+.marquee--volt{background:var(--volt);color:var(--ink);border-top:2px solid var(--ink);border-bottom:2px solid var(--ink);}
+.marquee__track{display:flex;width:max-content;will-change:transform;}
+.marquee__item{display:flex;align-items:center;gap:34px;padding-right:34px;font-family:var(--font-display);font-weight:600;font-size:clamp(18px,2.2vw,28px);letter-spacing:.04em;text-transform:uppercase;white-space:nowrap;}
+.marquee__item svg{width:20px;height:20px;flex:none;}
+
+/* ---------- why (reasons) ---------- */
+.why__grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;background:rgba(255,253,238,.14);border:1px solid rgba(255,253,238,.14);margin-top:64px;}
+.why-card{background:var(--ink);padding:44px 36px 52px;position:relative;transition:background .4s;overflow:hidden;}
+.why-card::after{
+  content:"";position:absolute;right:-40px;bottom:-40px;width:180px;height:180px;border-radius:50%;
+  background-image:radial-gradient(var(--volt) 1.4px,transparent 1.4px);background-size:11px 11px;
+  opacity:0;transform:scale(.6);transition:.5s;
+}
+.why-card:hover::after{opacity:.35;transform:scale(1);}
+.why-card__num{font-family:var(--font-mono);font-size:12px;color:var(--volt);letter-spacing:.25em;margin-bottom:56px;display:block;}
+.why-card h3{font-size:clamp(20px,1.9vw,26px);margin-bottom:20px;min-height:2.1em;}
+.why-card ul{list-style:none;display:grid;gap:12px;}
+.why-card li{padding-left:22px;position:relative;color:var(--bone-soft);font-size:15px;}
+.why-card li::before{content:"";position:absolute;left:0;top:9px;width:8px;height:8px;background:var(--volt);clip-path:polygon(0 0,100% 50%,0 100%);}
+.why__intro{display:grid;grid-template-columns:1.1fr .9fr;gap:48px;align-items:end;}
+.why__intro .lead{color:var(--bone-soft);}
+
+/* ---------- services ---------- */
+.services__list{margin-top:56px;border-top:1.5px solid var(--ink);}
+.service-row{
+  display:grid;grid-template-columns:90px 1fr 1.1fr auto;gap:32px;align-items:center;
+  padding:38px 0;border-bottom:1.5px solid var(--ink);position:relative;transition:padding .35s;
+}
+.service-row:hover{padding-left:16px;}
+.service-row__idx{font-family:var(--font-mono);font-size:13px;letter-spacing:.2em;}
+.service-row h3{font-size:clamp(24px,3.2vw,44px);font-weight:700;transition:color .3s;}
+.service-row:hover h3{color:transparent;-webkit-text-stroke:1.5px var(--ink);}
+.service-row p{color:var(--ink-soft);font-size:15px;max-width:520px;}
+.service-row__arrow{width:52px;height:52px;border:1.5px solid var(--ink);border-radius:50%;display:grid;place-items:center;transition:.35s;flex:none;}
+.service-row:hover .service-row__arrow{background:var(--ink);}
+.service-row:hover .service-row__arrow svg{stroke:var(--volt);transform:rotate(45deg);}
+.service-row__arrow svg{width:18px;height:18px;stroke:var(--ink);transition:.35s;}
+
+/* ---------- team ---------- */
+.team__grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(24px,4vw,64px);margin-top:64px;}
+.team-card{border:1px solid rgba(255,253,238,.16);padding:clamp(28px,3vw,44px);position:relative;overflow:hidden;}
+.team-card::before{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(196,247,44,.5) 1px,transparent 1px);background-size:14px 14px;opacity:0;transition:.5s;mask-image:linear-gradient(200deg,black,transparent 55%);-webkit-mask-image:linear-gradient(200deg,black,transparent 55%);}
+.team-card:hover::before{opacity:.4;}
+.team-card__role{font-family:var(--font-mono);font-size:12px;letter-spacing:.25em;text-transform:uppercase;color:var(--volt);margin-bottom:18px;display:block;}
+.team-card h3{font-size:clamp(26px,2.6vw,38px);margin-bottom:6px;}
+.team-card__title{font-family:var(--font-mono);font-size:12px;color:var(--bone-soft);letter-spacing:.1em;display:block;margin-bottom:24px;}
+.team-card p{color:var(--bone-soft);font-size:15.5px;position:relative;}
+
+/* ---------- transformations ---------- */
+.trans__head{display:flex;justify-content:space-between;align-items:end;gap:40px;flex-wrap:wrap;}
+.trans__head .lead{color:var(--ink);opacity:.75;}
+.trans__grid{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(18px,2.5vw,32px);margin-top:64px;}
+.trans-card{background:var(--ink);color:var(--bone);position:relative;overflow:hidden;}
+.trans-card__img{aspect-ratio:4/4.6;overflow:hidden;position:relative;background:#161314;}
+.trans-card__img img{width:100%;height:100%;object-fit:cover;filter:grayscale(1) contrast(1.15);transition:transform .8s cubic-bezier(.2,.6,.2,1);}
+.trans-card:hover .trans-card__img img{transform:scale(1.06);}
+.trans-card__img::after{
+  content:"";position:absolute;inset:0;
+  background-image:radial-gradient(rgba(35,31,32,.9) 1px,transparent 1.4px);
+  background-size:5px 5px;mix-blend-mode:overlay;pointer-events:none;
+}
+.trans-card__bar{display:flex;justify-content:space-between;align-items:center;padding:20px 22px;border-top:2px solid var(--volt);}
+.trans-card__bar h3{font-size:20px;}
+.trans-card__kg{font-family:var(--font-display);font-weight:700;font-size:26px;color:var(--volt);}
+.trans-card__tag{position:absolute;top:16px;left:16px;background:var(--volt);color:var(--ink);font-family:var(--font-mono);font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;padding:7px 12px;z-index:2;}
+
+/* ---------- pricing ---------- */
+.pricing__head{max-width:900px;}
+.pricing__tabs{display:flex;gap:10px;flex-wrap:wrap;margin:52px 0 36px;}
+.ptab{
+  font-family:var(--font-mono);font-size:12px;letter-spacing:.16em;text-transform:uppercase;
+  background:transparent;color:var(--bone);border:1px solid rgba(255,253,238,.28);padding:12px 22px;transition:.3s;
+}
+.ptab:hover{border-color:var(--volt);color:var(--volt);}
+.ptab.on{background:var(--volt);color:var(--ink);border-color:var(--volt);font-weight:500;}
+.pricing__grid{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(16px,2vw,28px);}
+.pricing__grid.two{grid-template-columns:repeat(2,minmax(0,460px));}
+.pane{display:none;}
+.pane.on{display:block;}
+.price-card{
+  border:1px solid rgba(255,253,238,.18);padding:36px 32px 40px;position:relative;display:flex;flex-direction:column;gap:0;
+  background:linear-gradient(180deg,rgba(255,253,238,.03),transparent);transition:transform .4s,border-color .4s;
+}
+.price-card:hover{transform:translateY(-6px);border-color:var(--volt);}
+.price-card--feat{border:2px solid var(--volt);background:linear-gradient(180deg,rgba(196,247,44,.08),transparent);}
+.price-card__flag{position:absolute;top:-14px;left:28px;background:var(--volt);color:var(--ink);font-family:var(--font-mono);font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;padding:6px 14px;font-weight:500;}
+.price-card__disc{font-family:var(--font-mono);font-size:11px;letter-spacing:.2em;color:var(--volt);border:1px solid rgba(196,247,44,.5);align-self:flex-start;padding:5px 10px;margin-bottom:22px;}
+.price-card h3{font-size:clamp(20px,1.8vw,25px);margin-bottom:16px;}
+.price-card__price{display:flex;align-items:baseline;gap:14px;margin-bottom:26px;flex-wrap:wrap;}
+.price-card__old{font-family:var(--font-mono);font-size:15px;color:var(--bone-soft);text-decoration:line-through;}
+.price-card__now{font-family:var(--font-display);font-weight:700;font-size:clamp(38px,3.6vw,52px);color:var(--volt);line-height:1;}
+.price-card__now small{font-size:.42em;font-weight:600;letter-spacing:.06em;}
+.price-card ul{list-style:none;display:grid;gap:11px;margin-bottom:32px;flex:1;}
+.price-card li{padding-left:24px;position:relative;font-size:14.5px;color:rgba(255,253,238,.82);}
+.price-card li::before{content:"";position:absolute;left:0;top:7px;width:9px;height:9px;background-image:radial-gradient(var(--volt) 1.6px,transparent 1.6px);background-size:4.5px 4.5px;}
+.price-card .btn{justify-content:center;}
+.pricing__note{margin-top:40px;font-family:var(--font-mono);font-size:12px;color:var(--bone-soft);letter-spacing:.06em;}
+.pricing__note a{color:var(--volt);border-bottom:1px solid var(--volt);}
+
+/* ---------- blog ---------- */
+.blog__grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;background:var(--ink);border:1.5px solid var(--ink);margin-top:56px;}
+.blog-card{background:var(--bone);padding:36px 32px 42px;display:flex;flex-direction:column;gap:20px;min-height:260px;transition:background .35s,color .35s;}
+.blog-card:hover{background:var(--ink);color:var(--bone);}
+.blog-card__idx{font-family:var(--font-mono);font-size:11px;letter-spacing:.25em;color:inherit;opacity:.55;}
+.blog-card h3{font-size:clamp(20px,1.8vw,26px);flex:1;}
+.blog-card span{font-family:var(--font-mono);font-size:12px;letter-spacing:.18em;text-transform:uppercase;display:inline-flex;align-items:center;gap:10px;}
+.blog-card:hover span{color:var(--volt);}
+.blog-card svg{width:14px;height:14px;transition:transform .3s;}
+.blog-card:hover svg{transform:translate(3px,-3px);}
+
+/* ---------- contact ---------- */
+.contact{position:relative;}
+.contact::before{
+  content:"";position:absolute;top:0;right:0;width:44%;height:100%;
+  background-image:radial-gradient(rgba(196,247,44,.35) 1.2px,transparent 1.2px);background-size:16px 16px;
+  mask-image:radial-gradient(ellipse at right top,black,transparent 68%);-webkit-mask-image:radial-gradient(ellipse at right top,black,transparent 68%);
+  pointer-events:none;
+}
+.contact__grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(40px,6vw,100px);position:relative;}
+.contact__info h2{margin-bottom:26px;}
+.contact__info .lead{color:var(--bone-soft);margin-bottom:48px;}
+.contact__rows{display:grid;gap:0;border-top:1px solid rgba(255,253,238,.15);}
+.contact__row{display:flex;justify-content:space-between;align-items:center;padding:22px 0;border-bottom:1px solid rgba(255,253,238,.15);gap:20px;}
+.contact__row b{font-family:var(--font-mono);font-size:11px;letter-spacing:.25em;text-transform:uppercase;color:var(--bone-soft);font-weight:400;}
+.contact__row a{font-family:var(--font-display);font-weight:600;font-size:clamp(16px,1.6vw,21px);letter-spacing:.02em;transition:color .3s;}
+.contact__row a:hover{color:var(--volt);}
+.socials{display:flex;gap:14px;margin-top:36px;}
+.socials a{width:48px;height:48px;border:1px solid rgba(255,253,238,.25);display:grid;place-items:center;transition:.3s;border-radius:50%;}
+.socials a:hover{background:var(--volt);border-color:var(--volt);}
+.socials svg{width:18px;height:18px;fill:var(--bone);transition:.3s;}
+.socials a:hover svg{fill:var(--ink);}
+.form{display:grid;gap:22px;}
+.form__field label{display:block;font-family:var(--font-mono);font-size:11px;letter-spacing:.25em;text-transform:uppercase;color:var(--bone-soft);margin-bottom:10px;}
+.form__field input,.form__field select,.form__field textarea{
+  width:100%;background:transparent;border:none;border-bottom:1.5px solid rgba(255,253,238,.3);
+  color:var(--bone);font-family:var(--font-body);font-size:16px;padding:12px 2px;outline:none;transition:border-color .3s;
+  border-radius:0;appearance:none;-webkit-appearance:none;
+}
+.form__field select option{background:var(--ink);color:var(--bone);}
+.form__field input:focus,.form__field select:focus,.form__field textarea:focus{border-color:var(--volt);}
+.form__field textarea{resize:vertical;min-height:90px;}
+.form__field{position:relative;}
+.form__field.sel::after{content:"";position:absolute;right:6px;bottom:22px;width:9px;height:9px;border-right:1.5px solid var(--volt);border-bottom:1.5px solid var(--volt);transform:rotate(45deg);pointer-events:none;}
+.form .btn{justify-content:center;margin-top:8px;}
+.form__ok{display:none;font-family:var(--font-mono);font-size:13px;color:var(--volt);letter-spacing:.1em;}
+.form.sent .form__ok{display:block;}
+
+/* ---------- big CTA ---------- */
+.bigcta{background:var(--volt);color:var(--ink);text-align:center;padding:clamp(90px,12vw,170px) 20px;position:relative;overflow:hidden;}
+.bigcta h2{font-size:clamp(44px,9vw,140px);letter-spacing:-.02em;margin-bottom:40px;position:relative;z-index:2;}
+.bigcta h2 span{display:block;}
+.bigcta h2 .stroke{color:transparent;-webkit-text-stroke:2px var(--ink);}
+.bigcta .btn{position:relative;z-index:2;}
+.bigcta__dots{position:absolute;inset:0;color:var(--ink);opacity:.12;background-image:radial-gradient(currentColor 1.4px,transparent 1.4px);background-size:18px 18px;mask-image:radial-gradient(ellipse at center,transparent 25%,black 90%);-webkit-mask-image:radial-gradient(ellipse at center,transparent 25%,black 90%);}
+
+/* ---------- footer ---------- */
+.footer{background:var(--ink);color:var(--bone);padding:80px clamp(20px,5vw,72px) 32px;border-top:1px solid rgba(255,253,238,.1);}
+.footer__grid{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:48px;margin-bottom:70px;}
+.footer__brand svg{width:64px;margin-bottom:24px;}
+.footer__brand svg path{fill:var(--bone);}
+.footer__brand p{color:var(--bone-soft);font-size:14.5px;max-width:380px;}
+.footer h4{font-family:var(--font-mono);font-size:11px;letter-spacing:.3em;color:var(--volt);margin-bottom:22px;font-weight:400;}
+.footer ul{list-style:none;display:grid;gap:12px;}
+.footer ul a{font-size:14.5px;color:var(--bone-soft);transition:.3s;}
+.footer ul a:hover{color:var(--volt);padding-left:6px;}
+.footer__bottom{display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap;padding-top:28px;border-top:1px solid rgba(255,253,238,.1);font-family:var(--font-mono);font-size:11px;letter-spacing:.12em;color:var(--bone-soft);}
+.footer__giant{font-family:var(--font-display);font-weight:700;font-size:clamp(64px,13.5vw,220px);line-height:.9;text-transform:uppercase;color:transparent;-webkit-text-stroke:1.5px rgba(255,253,238,.14);text-align:center;user-select:none;margin:20px 0 40px;white-space:nowrap;}
+
+/* ---------- responsive ---------- */
+@media(max-width:1080px){
+  .nav__links{display:none;}
+  .nav__cta{display:none;}
+  .burger{display:block;}
+  .hero__inner{grid-template-columns:1fr;}
+  .hero__portrait{position:absolute;right:-6%;bottom:0;opacity:.32;z-index:0;}
+  .hero__portrait img{width:min(70vw,480px);}
+  .why__grid{grid-template-columns:1fr;}
+  .why__intro{grid-template-columns:1fr;}
+  .service-row{grid-template-columns:48px 1fr auto;gap:18px;}
+  .service-row p{grid-column:2/4;}
+  .team__grid{grid-template-columns:1fr;}
+  .trans__grid{grid-template-columns:1fr;max-width:520px;margin-left:auto;margin-right:auto;}
+  .pricing__grid,.pricing__grid.two{grid-template-columns:1fr;}
+  .blog__grid{grid-template-columns:1fr;}
+  .contact__grid{grid-template-columns:1fr;}
+  .footer__grid{grid-template-columns:1fr;}
+  .hero__badge{display:none;}
+}
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.001s !important;transition-duration:.001s !important;}
+  html{scroll-behavior:auto;}
+}
+</style>
+</head>
+<body>
+
+<div class="noise"></div>
+<div class="cursor"></div>
+<div class="cursor-ring"></div>
+
+<!-- PRELOADER -->
+<div class="preloader" id="preloader">
+  <svg class="preloader__logo" viewBox="0 0 77 48" xmlns="http://www.w3.org/2000/svg"><path d="M27.1059 23.7511L26.5773 23.2215H18.5404L18.0706 23.6922L16.1687 25.6021L4.51765 37.274V26.729L3.39275 25.6021L1.02099 23.2215L0 22.1987V47.8008L0.198776 48L4.51765 43.6734L6.58673 41.6006L6.86231 41.3245L9.03529 39.1476L9.78071 38.4009L11.38 36.7988L12.9747 35.2012L13.5529 34.6219L15.8976 32.273L16.1687 32.0015L18.0706 30.0961L19.3626 28.8018L20.4152 27.7473H24.7025L25.7551 28.8018L27.1059 30.155V42.9538L28.9491 44.8003L29.9972 45.8502L31.6235 47.4795V28.2813L28.9491 25.6021L27.1059 23.7511Z"/><path d="M47.6092 18.6958L45.1742 16.2565L44.9167 15.9985L41.7227 12.7988L40.6565 11.7307V7.46747L41.7227 6.3994L44.9618 9.64435L45.1742 9.85706L48.1106 12.7988L49.4795 14.1701L49.6918 14.3828L51.3091 15.9985L53.1343 14.1701L54.2095 13.093V9.64435H51.3543L51.3091 9.59909L49.6918 7.98341L48.1106 6.3994L46.8321 5.11861L45.1742 3.45767L44.9167 3.1997L41.7227 0L38.5287 3.1997L36.1389 0.805582L35.9265 0.592872L35.3347 0L25.7076 9.64435H22.5859V12.8259L23.9277 14.1701L25.7528 15.9985L35.3347 6.3994L36.1389 7.20498V11.9932L35.3347 12.7988L33.9659 14.1701L32.1408 15.9985L31.6212 16.519L29.4482 18.6958L28.9468 19.1982L31.6212 21.8774L32.1408 22.3979L35.3347 19.1982L35.8362 18.6958L36.1389 18.3926V45.6059L36.3828 45.8503L38.5287 48L40.6565 45.8684V18.1301L41.7227 19.1982L44.9167 22.3979L48.1106 19.1982L47.6092 18.6958Z"/><path d="M76.0364 23.2218L73.6647 25.6023L72.2778 26.9917V37.0117L72.0654 36.799L70.4707 35.2014L67.7601 32.4859L67.5478 32.2732L64.0827 28.802L63.2425 27.9602L63.0301 27.7475L60.8888 25.6023L58.7248 23.4299L58.517 23.2218H50.4846L45.1719 28.544V41.3247H45.1899L45.1719 41.3428V47.7422L47.0603 45.8505L48.1083 44.8005L49.6895 43.2165V30.4177L51.3068 28.802L52.3595 27.7475H56.6422L57.6948 28.802L58.7248 29.8339L60.8888 32.0017L61.1598 32.2732L63.2425 34.3596L64.0827 35.2014L67.2767 38.4011L67.7601 38.8853L70.1951 41.3247L70.4707 41.6008L72.2778 43.4111L73.6647 44.8005L74.7128 45.8505L76.7954 47.9368V22.4614L76.0364 23.2218Z"/></svg>
+  <div class="preloader__count" id="pl-count">0</div>
+  <div class="preloader__bar"><i id="pl-bar"></i></div>
+  <div class="preloader__tag">2FIT2FAIL — <span class="si">nalagam formo</span><span class="en">loading the grind</span></div>
+</div>
+
+<!-- NAV -->
+<nav class="nav" id="nav">
+  <a href="#top" class="nav__logo" aria-label="2fit2fail">
+    <svg viewBox="0 0 77 48" xmlns="http://www.w3.org/2000/svg"><path d="M27.1059 23.7511L26.5773 23.2215H18.5404L18.0706 23.6922L16.1687 25.6021L4.51765 37.274V26.729L3.39275 25.6021L1.02099 23.2215L0 22.1987V47.8008L0.198776 48L4.51765 43.6734L6.58673 41.6006L6.86231 41.3245L9.03529 39.1476L9.78071 38.4009L11.38 36.7988L12.9747 35.2012L13.5529 34.6219L15.8976 32.273L16.1687 32.0015L18.0706 30.0961L19.3626 28.8018L20.4152 27.7473H24.7025L25.7551 28.8018L27.1059 30.155V42.9538L28.9491 44.8003L29.9972 45.8502L31.6235 47.4795V28.2813L28.9491 25.6021L27.1059 23.7511Z"/><path d="M47.6092 18.6958L45.1742 16.2565L44.9167 15.9985L41.7227 12.7988L40.6565 11.7307V7.46747L41.7227 6.3994L44.9618 9.64435L45.1742 9.85706L48.1106 12.7988L49.4795 14.1701L49.6918 14.3828L51.3091 15.9985L53.1343 14.1701L54.2095 13.093V9.64435H51.3543L51.3091 9.59909L49.6918 7.98341L48.1106 6.3994L46.8321 5.11861L45.1742 3.45767L44.9167 3.1997L41.7227 0L38.5287 3.1997L36.1389 0.805582L35.9265 0.592872L35.3347 0L25.7076 9.64435H22.5859V12.8259L23.9277 14.1701L25.7528 15.9985L35.3347 6.3994L36.1389 7.20498V11.9932L35.3347 12.7988L33.9659 14.1701L32.1408 15.9985L31.6212 16.519L29.4482 18.6958L28.9468 19.1982L31.6212 21.8774L32.1408 22.3979L35.3347 19.1982L35.8362 18.6958L36.1389 18.3926V45.6059L36.3828 45.8503L38.5287 48L40.6565 45.8684V18.1301L41.7227 19.1982L44.9167 22.3979L48.1106 19.1982L47.6092 18.6958Z"/><path d="M76.0364 23.2218L73.6647 25.6023L72.2778 26.9917V37.0117L72.0654 36.799L70.4707 35.2014L67.7601 32.4859L67.5478 32.2732L64.0827 28.802L63.2425 27.9602L63.0301 27.7475L60.8888 25.6023L58.7248 23.4299L58.517 23.2218H50.4846L45.1719 28.544V41.3247H45.1899L45.1719 41.3428V47.7422L47.0603 45.8505L48.1083 44.8005L49.6895 43.2165V30.4177L51.3068 28.802L52.3595 27.7475H56.6422L57.6948 28.802L58.7248 29.8339L60.8888 32.0017L61.1598 32.2732L63.2425 34.3596L64.0827 35.2014L67.2767 38.4011L67.7601 38.8853L70.1951 41.3247L70.4707 41.6008L72.2778 43.4111L73.6647 44.8005L74.7128 45.8505L76.7954 47.9368V22.4614L76.0364 23.2218Z"/></svg>
+    <span class="nav__wordmark">2FIT<em>2FAIL</em></span>
+  </a>
+  <div class="nav__links">
+    <a href="#zakaj"><span class="si">Zakaj</span><span class="en">Why</span></a>
+    <a href="#storitve"><span class="si">Storitve</span><span class="en">Services</span></a>
+    <a href="#ekipa"><span class="si">Ekipa</span><span class="en">Team</span></a>
+    <a href="#transformacije"><span class="si">Transformacije</span><span class="en">Transformations</span></a>
+    <a href="#cenik"><span class="si">Cenik</span><span class="en">Pricing</span></a>
+    <a href="#kontakt"><span class="si">Kontakt</span><span class="en">Contact</span></a>
+  </div>
+  <div class="nav__right">
+    <button class="lang-toggle" id="langToggle" aria-label="Language">
+      <span data-lang="si" class="on">SI</span><span data-lang="en">EN</span>
+    </button>
+    <a href="#kontakt" class="btn btn--volt btn--sm nav__cta"><span class="si">Treniraj z mano</span><span class="en">Train with me</span></a>
+    <button class="burger" id="burger" aria-label="Menu"><i></i><i></i></button>
+  </div>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#zakaj"><span><span class="si">Zakaj</span><span class="en">Why</span></span><small>01</small></a>
+  <a href="#storitve"><span><span class="si">Storitve</span><span class="en">Services</span></span><small>02</small></a>
+  <a href="#ekipa"><span><span class="si">Ekipa</span><span class="en">Team</span></span><small>03</small></a>
+  <a href="#transformacije"><span><span class="si">Transformacije</span><span class="en">Transformations</span></span><small>04</small></a>
+  <a href="#cenik"><span><span class="si">Cenik</span><span class="en">Pricing</span></span><small>05</small></a>
+  <a href="#kontakt"><span><span class="si">Kontakt</span><span class="en">Contact</span></span><small>06</small></a>
+</div>
+
+<!-- HERO -->
+<header class="hero" id="top">
+  <canvas id="dots-canvas"></canvas>
+
+  <div class="hero__badge" aria-hidden="true">
+    <svg viewBox="0 0 120 120"><defs><path id="circ" d="M60,60 m-46,0 a46,46 0 1,1 92,0 a46,46 0 1,1 -92,0"/></defs>
+    <text><textPath href="#circ">2FIT2FAIL • OSEBNO TRENERSTVO • LJUBLJANA • </textPath></text>
+    <circle cx="60" cy="60" r="4" fill="#231F20"/></svg>
+  </div>
+
+  <div class="hero__inner">
+    <div class="hero__text">
+      <div class="hero__meta">
+        <span><b>ŽAN HOČEVAR PEGANC</b> — dipl. šp. tren.</span>
+        <span class="si">Osebni trener · Ljubljana</span><span class="en">Personal trainer · Ljubljana</span>
+      </div>
+      <h1>
+        <span class="reveal-line"><span><span class="si">Tvoje telo.</span><span class="en">Your body.</span></span></span>
+        <span class="reveal-line"><span class="stroke"><span class="si">Tvoji rezultati.</span><span class="en">Your results.</span></span></span>
+        <span class="reveal-line"><span><span class="si">Tvoja pot.</span><span class="en">Your path.</span></span></span>
+      </h1>
+      <p class="hero__sub">
+        <span class="si">Tvoje življenje se izboljša, ko dosežeš odlično fizično pripravljenost. Skupaj gradimo mišice in samozavest — brez izgovorov, z znanstveno podprtimi metodami.</span>
+        <span class="en">Your life gets better the moment you get truly fit. Together we build muscle and confidence — no excuses, backed by science-based methods.</span>
+      </p>
+      <div class="hero__ctas">
+        <a href="#kontakt" class="btn btn--ink"><span class="si">Treniraj z mano</span><span class="en">Train with me</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M7 17L17 7M9 7h8v8"/></svg></a>
+        <a href="#transformacije" class="btn btn--ghost-ink"><span class="si">Transformacije</span><span class="en">Transformations</span></a>
+      </div>
+    </div>
+    <div class="hero__portrait" id="heroPortrait">
+      <div class="hero__blob"></div>
+      <img src="assets/zhp.png" alt="Žan Hočevar Peganc — osebni trener" fetchpriority="high">
+    </div>
+  </div>
+  <div class="hero__scroll"><i></i><span class="si">Skrolaj</span><span class="en">Scroll</span></div>
+</header>
+
+<!-- MARQUEE -->
+<div class="marquee" id="marquee1">
+  <div class="marquee__track" id="mtrack1"></div>
+</div>
+
+<!-- WHY -->
+<section class="section section--ink" id="zakaj">
+  <div class="why__intro">
+    <div>
+      <span class="eyebrow"><span class="si">Kaj lahko naredim zate</span><span class="en">What I can do for you</span></span>
+      <h2 class="h-lg">
+        <span class="reveal-line"><span><span class="si">Ključni razlog?</span><span class="en">The key reason?</span></span></span>
+        <span class="reveal-line"><span style="color:var(--volt)"><span class="si">Prihraniš svoj čas.</span><span class="en">You save your time.</span></span></span>
+      </h2>
+    </div>
+    <p class="lead">
+      <span class="si">Kot osebni trener ti pomagam najti najboljšo različico sebe. Ne veš, kako začeti s fitnesom? Te je strah telovadbe? Imaš poškodbo? Na samostojni poti za iste cilje potrebuješ vsaj 3–4× več časa.</span>
+      <span class="en">As a personal trainer I help you find the best version of yourself. Don't know where to start? Afraid of the gym? Carrying an injury? On your own, the same goals take at least 3–4× longer.</span>
+    </p>
+  </div>
+
+  <div class="why__grid">
+    <article class="why-card" data-anim="card">
+      <span class="why-card__num">/ 01</span>
+      <h3><span class="si">Optimizacija časa in učinkovitost</span><span class="en">Time optimisation &amp; efficiency</span></h3>
+      <ul>
+        <li><span class="si">Prihraniš svoj čas, veliko narediš zase in se imaš ob tem noro fajn.</span><span class="en">You save time, do a lot for yourself and have a great time doing it.</span></li>
+        <li><span class="si">Na samostojni poti za dosego istih ciljev potrebuješ vsaj 3–4× več časa.</span><span class="en">Going solo, the same goals take at least 3–4× more time.</span></li>
+      </ul>
+    </article>
+    <article class="why-card" data-anim="card">
+      <span class="why-card__num">/ 02</span>
+      <h3><span class="si">Napredovanje in premagovanje ovir</span><span class="en">Progress &amp; breaking plateaus</span></h3>
+      <ul>
+        <li><span class="si">Kljub rednemu vadbenemu režimu že nekaj časa ne opaziš izgube teže ali vidnega napredka pri oblikovanju postave.</span><span class="en">Despite training regularly, you've stopped seeing weight loss or visible progress in your physique.</span></li>
+        <li><span class="si">Potrebuješ nove izzive, saj se ne moreš pripraviti do tega, da se ženeš do svojih maksimalnih zmožnosti.</span><span class="en">You need new challenges because you can't push yourself to your true maximum alone.</span></li>
+      </ul>
+    </article>
+    <article class="why-card" data-anim="card">
+      <span class="why-card__num">/ 03</span>
+      <h3><span class="si">Podpora in motivacija</span><span class="en">Support &amp; motivation</span></h3>
+      <ul>
+        <li><span class="si">Si začetnik in ne veš, katere mišične skupine okrepiti ali raztegniti za boljše delovanje telesa.</span><span class="en">You're a beginner and don't know which muscle groups to strengthen or stretch for a better-functioning body.</span></li>
+        <li><span class="si">Potrebuješ motivacijo in odgovornost do samega sebe.</span><span class="en">You need motivation and accountability to yourself.</span></li>
+      </ul>
+    </article>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="section section--bone" id="storitve">
+  <span class="eyebrow"><span class="si">Storitve</span><span class="en">Services</span></span>
+  <h2 class="h-lg">
+    <span class="reveal-line"><span><span class="si">Izberi svoj način</span><span class="en">Choose your way</span></span></span>
+    <span class="reveal-line"><span><span class="si">do forme</span><span class="en">to get fit</span></span></span>
+  </h2>
+
+  <div class="services__list">
+    <a class="service-row" href="#cenik" data-anim="row">
+      <span class="service-row__idx">S/01</span>
+      <h3><span class="si">Osebno trenerstvo</span><span class="en">Personal training</span></h3>
+      <p><span class="si">Ne glede na to, ali želiš izgubiti težo, povečati mišično maso, izboljšati kondicijo ali živeti bolj zdravo — sem tu, da ti pomagam na poti do uspeha. Treningi 1 na 1, v dvoje ali v troje.</span>
+      <span class="en">Whether you want to lose weight, build muscle, improve conditioning or simply live healthier — I'm here to get you there. Sessions 1-on-1, in pairs or in threes.</span></p>
+      <span class="service-row__arrow"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M7 17L17 7M9 7h8v8"/></svg></span>
+    </a>
+    <a class="service-row" href="#cenik" data-anim="row">
+      <span class="service-row__idx">S/02</span>
+      <h3><span class="si">Online trenerstvo</span><span class="en">Online coaching</span></h3>
+      <p><span class="si">Kot tvoj online coach ti zagotovim strokovno usmerjanje in motivacijo, da dosežeš svoje cilje na področju fitnesa, zdrave prehrane in življenjskega sloga — kjerkoli si.</span>
+      <span class="en">As your online coach I give you expert guidance and motivation to hit your fitness, nutrition and lifestyle goals — wherever you are.</span></p>
+      <span class="service-row__arrow"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M7 17L17 7M9 7h8v8"/></svg></span>
+    </a>
+    <a class="service-row" href="#cenik" data-anim="row">
+      <span class="service-row__idx">S/03</span>
+      <h3><span class="si">Svetovanje</span><span class="en">Consulting</span></h3>
+      <p><span class="si">Lahko me tudi pokličeš! 15- ali 30-minutno svetovanje: hujšanje, telesna transformacija, konkretna vprašanja glede prehrane in treningov, izbira in zaporedje vaj.</span>
+      <span class="en">You can simply call me. 15 or 30-minute consults: weight loss, body transformation, concrete nutrition and training questions, exercise selection and order.</span></p>
+      <span class="service-row__arrow"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M7 17L17 7M9 7h8v8"/></svg></span>
+    </a>
+    <a class="service-row" href="#cenik" data-anim="row">
+      <span class="service-row__idx">S/04</span>
+      <h3><span class="si">Gym delavnica</span><span class="en">Gym workshop</span></h3>
+      <p><span class="si">Nauči se pravilno izvajati vaje na napravah in s prostimi utežmi, prilagoditi vajo svojim zmožnostim in razumeti progresijo. Max 10 udeležencev, 120 min, Clever fit Letališka.</span>
+      <span class="en">Learn to use machines and free weights correctly, adapt exercises to your level and understand progression. Max 10 participants, 120 min, Clever fit Letališka.</span></p>
+      <span class="service-row__arrow"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M7 17L17 7M9 7h8v8"/></svg></span>
+    </a>
+  </div>
+</section>
+
+<!-- MARQUEE 2 -->
+<div class="marquee marquee--volt"><div class="marquee__track" id="mtrack2"></div></div>
+
+<!-- TEAM -->
+<section class="section section--ink" id="ekipa">
+  <span class="eyebrow"><span class="si">Ekipa</span><span class="en">The team</span></span>
+  <h2 class="h-lg">
+    <span class="reveal-line"><span><span class="si">Kdo stoji za</span><span class="en">The people behind</span></span></span>
+    <span class="reveal-line"><span style="color:var(--volt)">2FIT2FAIL</span></span>
+  </h2>
+
+  <div class="team__grid">
+    <article class="team-card" data-anim="card">
+      <span class="team-card__role"><span class="si">Ustanovitelj &amp; glavni trener</span><span class="en">Founder &amp; head coach</span></span>
+      <h3>Žan Hočevar Peganc</h3>
+      <span class="team-card__title">dipl. šp. tren.</span>
+      <p><span class="si">Posameznikom pomagam doseči njihovo najboljšo različico sebe skozi unikatno fitnes pot, ki jo strokovno prilagajam posameznikovim potrebam. Pri svojem delu uporabljam znanstveno podprte metode, kar zagotavlja učinkovitost in varnost vadbe.</span>
+      <span class="en">I help individuals reach their best selves through a unique fitness journey, expertly tailored to their needs. My work relies on science-based methods, ensuring training that is both effective and safe.</span></p>
+    </article>
+    <article class="team-card" data-anim="card">
+      <span class="team-card__role"><span class="si">Član ekipe 2fit2fail</span><span class="en">2fit2fail team member</span></span>
+      <h3>Gregor Tekavčič</h3>
+      <span class="team-card__title">mag. kin.</span>
+      <p><span class="si">Kot specialist na področju telesne priprave in rehabilitacije poškodb se osredotočam na oblikovanje prilagojenih programov vadbe. Strankam nudim pomoč pri analizi in učenju pravilnih gibalnih vzorcev, kar pripomore k izboljšanju njihovega življenja.</span>
+      <span class="en">As a specialist in physical preparation and injury rehabilitation, I focus on designing tailored training programmes. I help clients analyse and learn correct movement patterns, improving their everyday life.</span></p>
+    </article>
+  </div>
+</section>
+
+<!-- TRANSFORMATIONS -->
+<section class="section section--volt" id="transformacije">
+  <div class="trans__head">
+    <div>
+      <span class="eyebrow"><span class="si">Transformacije</span><span class="en">Transformations</span></span>
+      <h2 class="h-lg">
+        <span class="reveal-line"><span><span class="si">Dokazi, ne</span><span class="en">Proof, not</span></span></span>
+        <span class="reveal-line"><span class="si">obljube.</span><span class="en">promises.</span></span>
+      </h2>
+    </div>
+    <p class="lead">
+      <span class="si">Moji programi so že pomagali mnogim posameznikom do izjemnih transformacij. Stopi iz cone udobja in se pridruži skupnosti zadovoljnih strank, ki so že doživele neverjetne spremembe.</span>
+      <span class="en">My programmes have already helped many people achieve remarkable transformations. Step out of your comfort zone and join a community of clients who have already seen incredible change.</span>
+    </p>
+  </div>
+
+  <div class="trans__grid">
+    <a class="trans-card" href="https://www.2fit2fail.com/transformacije" target="_blank" rel="noopener" data-anim="card">
+      <span class="trans-card__tag"><span class="si">Pred / Po</span><span class="en">Before / After</span></span>
+      <div class="trans-card__img"><img src="https://www.2fit2fail.com/assets/img/transformacije/nejc.png" alt="Transformacija Nejc" loading="lazy"></div>
+      <div class="trans-card__bar"><h3>Nejc</h3><span class="trans-card__kg">−8 kg</span></div>
+    </a>
+    <a class="trans-card" href="https://www.2fit2fail.com/transformacije" target="_blank" rel="noopener" data-anim="card">
+      <span class="trans-card__tag"><span class="si">Pred / Po</span><span class="en">Before / After</span></span>
+      <div class="trans-card__img"><img src="https://www.2fit2fail.com/assets/img/transformacije/goran.png" alt="Transformacija Goran" loading="lazy"></div>
+      <div class="trans-card__bar"><h3>Goran</h3><span class="trans-card__kg">−13 kg</span></div>
+    </a>
+    <a class="trans-card" href="https://www.2fit2fail.com/transformacije" target="_blank" rel="noopener" data-anim="card">
+      <span class="trans-card__tag"><span class="si">Pred / Po</span><span class="en">Before / After</span></span>
+      <div class="trans-card__img"><img src="https://www.2fit2fail.com/assets/img/transformacije/joze.png" alt="Transformacija Jože" loading="lazy"></div>
+      <div class="trans-card__bar"><h3>Jože</h3><span class="trans-card__kg">−10 kg</span></div>
+    </a>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="section section--ink" id="cenik">
+  <div class="pricing__head">
+    <span class="eyebrow"><span class="si">Cenik storitev</span><span class="en">Pricing</span></span>
+    <h2 class="h-lg">
+      <span class="reveal-line"><span><span class="si">Paketi za tvoje</span><span class="en">Packages for your</span></span></span>
+      <span class="reveal-line"><span style="color:var(--volt)"><span class="si">individualne cilje</span><span class="en">individual goals</span></span></span>
+    </h2>
+  </div>
+
+  <div class="pricing__tabs" role="tablist">
+    <button class="ptab on" data-pane="p-1na1">1 <span class="si">na</span><span class="en">on</span> 1</button>
+    <button class="ptab" data-pane="p-duo">Duo</button>
+    <button class="ptab" data-pane="p-trio">Trio</button>
+    <button class="ptab" data-pane="p-online">Online + <span class="si">Svetovanje</span><span class="en">Consulting</span></button>
+  </div>
+
+  <!-- 1 na 1 -->
+  <div class="pane on" id="p-1na1">
+    <div class="pricing__grid two">
+      <article class="price-card" data-anim="card">
+        <span class="price-card__disc">−50 €</span>
+        <h3>Individual Basic</h3>
+        <div class="price-card__price"><span class="price-card__old">450 €</span><span class="price-card__now">400<small> EUR</small></span></div>
+        <ul>
+          <li><span class="si">2× tedensko trening (5 tednov)</span><span class="en">2× weekly training (5 weeks)</span></li>
+          <li><span class="si">10× trening 1 na 1</span><span class="en">10× 1-on-1 sessions</span></li>
+          <li><span class="si">Personaliziran program treningov</span><span class="en">Personalised training programme</span></li>
+          <li><span class="si">Analiza gibalnih vzorcev</span><span class="en">Movement pattern analysis</span></li>
+          <li><span class="si">Analiza prehranskih navad</span><span class="en">Nutrition habits analysis</span></li>
+          <li><span class="si">2× telesne meritve</span><span class="en">2× body measurements</span></li>
+          <li><span class="si">2× meritve sestave telesa</span><span class="en">2× body composition analysis</span></li>
+          <li><span class="si">Podpora 24/7</span><span class="en">24/7 support</span></li>
+        </ul>
+        <a class="btn btn--ghost" href="https://www.2fit2fail.com/naroci-storitev?paket=INDIVIDUAL-BASIC" target="_blank" rel="noopener"><span class="si">Naroči storitev</span><span class="en">Order now</span></a>
+      </article>
+
+      <article class="price-card price-card--feat" data-anim="card">
+        <span class="price-card__flag"><span class="si">Najbolj priljubljen</span><span class="en">Most popular</span></span>
+        <span class="price-card__disc">−50 €</span>
+        <h3>Individual Pro</h3>
+        <div class="price-card__price"><span class="price-card__old">690 €</span><span class="price-card__now">640<small> EUR</small></span></div>
+        <ul>
+          <li><span class="si">3× tedensko</span><span class="en">3× weekly</span></li>
+          <li><span class="si">15× trening 1 na 1</span><span class="en">15× 1-on-1 sessions</span></li>
+          <li><span class="si">Personaliziran program treningov</span><span class="en">Personalised training programme</span></li>
+          <li><span class="si">Analiza gibalnih vzorcev</span><span class="en">Movement pattern analysis</span></li>
+          <li><span class="si">Analiza prehranskih navad</span><span class="en">Nutrition habits analysis</span></li>
+          <li><span class="si">2× telesne meritve</span><span class="en">2× body measurements</span></li>
+          <li><span class="si">2× meritve sestave telesa</span><span class="en">2× body composition analysis</span></li>
+          <li><span class="si">1× masaža v vrednosti 60 EUR</span><span class="en">1× massage worth 60 EUR</span></li>
+          <li><span class="si">Podpora 24/7</span><span class="en">24/7 support</span></li>
+        </ul>
+        <a class="btn btn--volt" href="https://www.2fit2fail.com/naroci-storitev?paket=INDIVIDUAL-PRO" target="_blank" rel="noopener"><span class="si">Naroči storitev</span><span class="en">Order now</span></a>
+      </article>
+    </div>
+  </div>
+
+  <!-- DUO -->
+  <div class="pane" id="p-duo">
+    <div class="pricing__grid two">
+      <article class="price-card" data-anim="card">
+        <span class="price-card__disc">−50 €</span>
+        <h3>Duo Basic</h3>
+        <div class="price-card__price"><span class="price-card__old">500 €</span><span class="price-card__now">450<small> EUR</small></span></div>
+        <ul>
+          <li><span class="si">2× tedensko (5 tednov)</span><span class="en">2× weekly (5 weeks)</span></li>
+          <li><span class="si">10× trening 2 na 1</span><span class="en">10× 2-on-1 sessions</span></li>
+          <li><span class="si">2× personaliziran program treningov</span><span class="en">2× personalised training programme</span></li>
+          <li><span class="si">2× prehransko svetovanje</span><span class="en">2× nutrition consulting</span></li>
+          <li><span class="si">2× analiza gibalnih vzorcev</span><span class="en">2× movement pattern analysis</span></li>
+          <li><span class="si">2× analiza prehranskih navad</span><span class="en">2× nutrition habits analysis</span></li>
+          <li><span class="si">4× telesne meritve</span><span class="en">4× body measurements</span></li>
+          <li><span class="si">4× meritve sestave telesa</span><span class="en">4× body composition analysis</span></li>
+          <li><span class="si">Podpora 24/7</span><span class="en">24/7 support</span></li>
+        </ul>
+        <a class="btn btn--ghost" href="https://www.2fit2fail.com/naroci-storitev?paket=DUO-BASIC" target="_blank" rel="noopener"><span class="si">Naroči storitev</span><span class="en">Order now</span></a>
+      </article>
+
+      <article class="price-card" data-anim="card">
+        <span class="price-card__disc">−50 €</span>
+        <h3>Duo Pro</h3>
+        <div class="price-card__price"><span class="price-card__old">800 €</span><span class="price-card__now">750<small> EUR</small></span></div>
+        <ul>
+          <li><span class="si">3× tedensko</span><span class="en">3× weekly</span></li>
+          <li><span class="si">15× trening 2 na 1</span><span class="en">15× 2-on-1 sessions</span></li>
+          <li><span class="si">2× personaliziran program treningov</span><span class="en">2× personalised training programme</span></li>
+          <li><span class="si">2× prehransko svetovanje</span><span class="en">2× nutrition consulting</span></li>
+          <li><span class="si">4× telesne meritve</span><span class="en">4× body measurements</span></li>
+          <li><span class="si">4× meritve sestave telesa</span><span class="en">4× body composition analysis</span></li>
+          <li><span class="si">2× masaža v vrednosti 120 EUR</span><span class="en">2× massage worth 120 EUR</span></li>
+          <li><span class="si">Podpora 24/7</span><span class="en">24/7 support</span></li>
+        </ul>
+        <a class="btn btn--ghost" href="https://www.2fit2fail.com/naroci-storitev?paket=DUO-PRO" target="_blank" rel="noopener"><span class="si">Naroči storitev</span><span class="en">Order now</span></a>
+      </article>
+    </div>
+  </div>
+
+  <!-- TRIO -->
+  <div class="pane" id="p-trio">
+    <div class="pricing__grid two">
+      <article class="price-card" data-anim="card">
+        <span class="price-card__disc">−50 €</span>
+        <h3>Trio Basic</h3>
+        <div class="price-card__price"><span class="price-card__old">550 €</span><span class="price-card__now">500<small> EUR</small></span></div>
+        <ul>
+          <li><span class="si">2× tedensko (5 tednov)</span><span class="en">2× weekly (5 weeks)</span></li>
+          <li><span class="si">10× trening 3 na 1</span><span class="en">10× 3-on-1 sessions</span></li>
+          <li><span class="si">3× personaliziran program treningov</span><span class="en">3× personalised training programme</span></li>
+          <li><span class="si">3× prehransko svetovanje</span><span class="en">3× nutrition consulting</span></li>
+          <li><span class="si">6× telesne meritve</span><span class="en">6× body measurements</span></li>
+          <li><span class="si">6× meritve sestave telesa</span><span class="en">6× body composition analysis</span></li>
+          <li><span class="si">Podpora 24/7</span><span class="en">24/7 support</span></li>
+        </ul>
+        <a class="btn btn--ghost" href="https://www.2fit2fail.com/naroci-storitev?paket=TRIO-BASIC" target="_blank" rel="noopener"><span class="si">Naroči storitev</span><span class="en">Order now</span></a>
+      </article>
+
+      <article class="price-card" data-anim="card">
+        <span class="price-card__disc">−50 €</span>
+        <h3>Trio Pro</h3>
+        <div class="price-card__price"><span class="price-card__old">910 €</span><span class="price-card__now">860<small> EUR</small></span></div>
+        <ul>
+          <li><span class="si">3× tedensko</span><span class="en">3× weekly</span></li>
+          <li><span class="si">15× trening 3 na 1</span><span class="en">15× 3-on-1 sessions</span></li>
+          <li><span class="si">3× personaliziran program treningov</span><span class="en">3× personalised training programme</span></li>
+          <li><span class="si">3× prehransko svetovanje</span><span class="en">3× nutrition consulting</span></li>
+          <li><span class="si">6× telesne meritve</span><span class="en">6× body measurements</span></li>
+          <li><span class="si">6× meritve sestave telesa</span><span class="en">6× body composition analysis</span></li>
+          <li><span class="si">3× masaža v vrednosti 180 EUR</span><span class="en">3× massage worth 180 EUR</span></li>
+          <li><span class="si">Podpora 24/7</span><span class="en">24/7 support</span></li>
+        </ul>
+        <a class="btn btn--ghost" href="https://www.2fit2fail.com/naroci-storitev?paket=TRIO-PRO" target="_blank" rel="noopener"><span class="si">Naroči storitev</span><span class="en">Order now</span></a>
+      </article>
+    </div>
+  </div>
+
+  <!-- ONLINE + SVETOVANJE -->
+  <div class="pane" id="p-online">
+    <div class="pricing__grid">
+      <article class="price-card price-card--feat" data-anim="card">
+        <span class="price-card__flag">Online</span>
+        <span class="price-card__disc">−50 €</span>
+        <h3><span class="si">Online osebno trenerstvo</span><span class="en">Online personal training</span></h3>
+        <div class="price-card__price"><span class="price-card__old">210 €</span><span class="price-card__now">160<small> EUR</small></span></div>
+        <ul>
+          <li><span class="si">1× personaliziran program treningov</span><span class="en">1× personalised training programme</span></li>
+          <li><span class="si">1× prehransko svetovanje</span><span class="en">1× nutrition consulting</span></li>
+          <li><span class="si">2× ocena sestave telesa</span><span class="en">2× body composition assessment</span></li>
+          <li><span class="si">4× check up</span><span class="en">4× check-up</span></li>
+          <li><span class="si">Podpora 24/7</span><span class="en">24/7 support</span></li>
+        </ul>
+        <a class="btn btn--volt" href="https://www.2fit2fail.com/naroci-storitev?paket=PAKET-ONLINE-OSEBNO-TRENERSTVO" target="_blank" rel="noopener"><span class="si">Naroči storitev</span><span class="en">Order now</span></a>
+      </article>
+
+      <article class="price-card" data-anim="card">
+        <span class="price-card__disc">−50 €</span>
+        <h3><span class="si">15 min svetovanje</span><span class="en">15 min consulting</span></h3>
+        <div class="price-card__price"><span class="price-card__old">80 €</span><span class="price-card__now">30<small> EUR</small></span></div>
+        <ul>
+          <li><span class="si">Hitro in intenzivno individualno svetovanje za rešitve tvojih težav pri treningih in prehrani</span><span class="en">Quick, intense one-on-one consult to solve your training and nutrition problems</span></li>
+          <li><span class="si">Razpredelnica za vpisovanje telesne teže</span><span class="en">Body-weight tracking sheet</span></li>
+          <li><span class="si">Program vadbe</span><span class="en">Training programme</span></li>
+        </ul>
+        <a class="btn btn--ghost" href="https://www.2fit2fail.com/naroci-storitev?paket=15-MIN-SVETOVANJE" target="_blank" rel="noopener"><span class="si">Naroči storitev</span><span class="en">Order now</span></a>
+      </article>
+
+      <article class="price-card" data-anim="card">
+        <span class="price-card__disc">−50 €</span>
+        <h3><span class="si">30 min svetovanje</span><span class="en">30 min consulting</span></h3>
+        <div class="price-card__price"><span class="price-card__old">100 €</span><span class="price-card__now">50<small> EUR</small></span></div>
+        <ul>
+          <li><span class="si">Popolno in celovito svetovanje za reševanje tvojih težav pri treningih in prehrani</span><span class="en">Complete, in-depth consult to solve your training and nutrition problems</span></li>
+          <li><span class="si">Razpredelnica za vpisovanje telesne teže</span><span class="en">Body-weight tracking sheet</span></li>
+          <li><span class="si">Program vadbe</span><span class="en">Training programme</span></li>
+        </ul>
+        <a class="btn btn--ghost" href="https://www.2fit2fail.com/naroci-storitev?paket=30-MIN-SVETOVANJE" target="_blank" rel="noopener"><span class="si">Naroči storitev</span><span class="en">Order now</span></a>
+      </article>
+
+      <article class="price-card" data-anim="card" style="grid-column:1/-1;">
+        <span class="price-card__disc">−50 €</span>
+        <h3><span class="si">Gym — delavnica</span><span class="en">Gym — workshop</span></h3>
+        <div class="price-card__price"><span class="price-card__old">120 €</span><span class="price-card__now">70<small> EUR</small></span></div>
+        <ul style="grid-template-columns:repeat(auto-fit,minmax(280px,1fr));display:grid;">
+          <li><span class="si">Kako nastaviti in prilagoditi naprave v fitnesu za krepitev želenih mišičnih skupin</span><span class="en">How to set up and adjust gym machines for the muscle groups you want</span></li>
+          <li><span class="si">Kako izvajati vaje s prostimi utežmi za maksimalen napredek</span><span class="en">How to perform free-weight exercises for maximum progress</span></li>
+          <li><span class="si">Kako prilagoditi vajo, če je naprava zasedena, in razumeti progresijo</span><span class="en">How to adapt an exercise when a machine is busy — and how progression works</span></li>
+          <li><span class="si">Individualen pristop — max 10 udeležencev</span><span class="en">Individual approach — max 10 participants</span></li>
+          <li><span class="si">Lokacija: Clever fit Letališka oz. po dogovoru · trajanje 120 min</span><span class="en">Location: Clever fit Letališka or by agreement · 120 min</span></li>
+          <li><span class="si">Dodatno: program vadbe + darilo</span><span class="en">Extra: training programme + a gift</span></li>
+        </ul>
+        <a class="btn btn--ghost" href="https://www.2fit2fail.com/naroci-storitev?paket=GYM-DELAVNICA" target="_blank" rel="noopener"><span class="si">Naroči storitev</span><span class="en">Order now</span></a>
+      </article>
+    </div>
+  </div>
+
+  <p class="pricing__note"><span class="si">* Vse cene vključujejo popust −50 €. Celotno ponudbo najdeš na</span><span class="en">* All prices include the −50 € discount. See the full offer at</span> <a href="https://www.2fit2fail.com/storitve" target="_blank" rel="noopener">2fit2fail.com/storitve</a></p>
+</section>
+
+<!-- BLOG -->
+<section class="section section--bone" id="blog">
+  <span class="eyebrow"><span class="si">Blog</span><span class="en">Blog</span></span>
+  <h2 class="h-lg">
+    <span class="reveal-line"><span><span class="si">Nasveti za fitnes,</span><span class="en">Fitness tips,</span></span></span>
+    <span class="reveal-line"><span><span class="si">motivacijo in trenerstvo</span><span class="en">motivation &amp; coaching</span></span></span>
+  </h2>
+
+  <div class="blog__grid">
+    <a class="blog-card" href="https://www.2fit2fail.com/blog/osebni-trener-za-hujsanje" target="_blank" rel="noopener" data-anim="card">
+      <span class="blog-card__idx">B/01</span>
+      <h3><span class="si">Osebni trener za hujšanje</span><span class="en">A personal trainer for weight loss</span></h3>
+      <span><span class="si">Preberi članek</span><span class="en">Read article</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M7 17L17 7M9 7h8v8"/></svg></span>
+    </a>
+    <a class="blog-card" href="https://www.2fit2fail.com/blog/osebno-trenerstvo-cena" target="_blank" rel="noopener" data-anim="card">
+      <span class="blog-card__idx">B/02</span>
+      <h3><span class="si">Osebno trenerstvo — cena</span><span class="en">Personal training — what it costs</span></h3>
+      <span><span class="si">Preberi članek</span><span class="en">Read article</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M7 17L17 7M9 7h8v8"/></svg></span>
+    </a>
+    <a class="blog-card" href="https://www.2fit2fail.com/blog/investirajte-v-svoje-zdravje-z-osebnim-trenerjem" target="_blank" rel="noopener" data-anim="card">
+      <span class="blog-card__idx">B/03</span>
+      <h3><span class="si">Investirajte v svoje zdravje z osebnim trenerjem</span><span class="en">Invest in your health with a personal trainer</span></h3>
+      <span><span class="si">Preberi članek</span><span class="en">Read article</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M7 17L17 7M9 7h8v8"/></svg></span>
+    </a>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="section section--ink contact" id="kontakt">
+  <div class="contact__grid">
+    <div class="contact__info">
+      <span class="eyebrow"><span class="si">Kontakt</span><span class="en">Contact</span></span>
+      <h2 class="h-lg">
+        <span class="reveal-line"><span><span class="si">Kontaktiraj</span><span class="en">Get in</span></span></span>
+        <span class="reveal-line"><span style="color:var(--volt)"><span class="si">me</span><span class="en">touch</span></span></span>
+      </h2>
+      <p class="lead"><span class="si">Stopi na svojo fitnes pot še danes in mi piši, da skupaj oblikujeva tvoj prilagojen program vadbe!</span>
+      <span class="en">Start your fitness journey today — write to me and together we'll shape your personalised training programme.</span></p>
+      <div class="contact__rows">
+        <div class="contact__row"><b>E-mail</b><a href="mailto:zan@2fit2fail.com">zan@2fit2fail.com</a></div>
+        <div class="contact__row"><b><span class="si">Telefon</span><span class="en">Phone</span></b><a href="tel:+38670999058">070 999 058</a></div>
+        <div class="contact__row"><b><span class="si">Lokacija</span><span class="en">Location</span></b><a href="https://www.2fit2fail.com/osebni-trener-ljubljana" target="_blank" rel="noopener">Ljubljana, SI</a></div>
+      </div>
+      <div class="socials">
+        <a href="https://www.instagram.com/zanhocevar_p/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24"><path d="M12 2.2c3.2 0 3.6 0 4.8.07 3.25.15 4.77 1.7 4.92 4.92.06 1.27.07 1.65.07 4.85s0 3.58-.07 4.85c-.15 3.23-1.66 4.77-4.92 4.92-1.2.06-1.6.07-4.8.07s-3.6 0-4.8-.07c-3.26-.15-4.77-1.7-4.92-4.92C2.2 15.6 2.2 15.2 2.2 12s0-3.58.08-4.85C2.43 3.93 3.94 2.4 7.2 2.25 8.4 2.2 8.8 2.2 12 2.2zm0 3.63a6.17 6.17 0 100 12.34 6.17 6.17 0 000-12.34zm0 10.18a4 4 0 110-8 4 4 0 010 8zm6.4-11.85a1.44 1.44 0 100 2.88 1.44 1.44 0 000-2.88z"/></svg></a>
+        <a href="https://www.tiktok.com/@zan_hocevar_peganc" target="_blank" rel="noopener" aria-label="TikTok"><svg viewBox="0 0 24 24"><path d="M16.6 5.82A4.28 4.28 0 0115.54 3h-3.09v12.4a2.59 2.59 0 11-1.83-2.48V9.75a5.76 5.76 0 00-.76-.06 5.66 5.66 0 105.66 5.66V9.01a7.36 7.36 0 004.3 1.38V7.3a4.3 4.3 0 01-3.22-1.48z"/></svg></a>
+        <a href="https://si.linkedin.com/in/zan-hocevar-peganc" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24"><path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM.24 8.16h4.52V23H.24V8.16zM8.34 8.16h4.33v2.03h.06c.6-1.14 2.08-2.34 4.28-2.34 4.58 0 5.42 3.01 5.42 6.92V23h-4.52v-7.2c0-1.72-.03-3.93-2.4-3.93-2.4 0-2.77 1.87-2.77 3.8V23H8.34V8.16z"/></svg></a>
+      </div>
+    </div>
+
+    <form class="form" id="contactForm" novalidate>
+      <h3 class="h-md"><span class="si">Treniraj z mano</span><span class="en">Train with me</span></h3>
+      <div class="form__field">
+        <label for="f-name"><span class="si">Ime</span><span class="en">Name</span></label>
+        <input id="f-name" name="name" type="text" required autocomplete="name">
+      </div>
+      <div class="form__field">
+        <label for="f-phone"><span class="si">Telefonska številka</span><span class="en">Phone number</span></label>
+        <input id="f-phone" name="phone" type="tel" required autocomplete="tel">
+      </div>
+      <div class="form__field">
+        <label for="f-email"><span class="si">E-naslov</span><span class="en">E-mail</span></label>
+        <input id="f-email" name="email" type="email" required autocomplete="email">
+      </div>
+      <div class="form__field sel">
+        <label for="f-goal"><span class="si">Cilj (izberi možnost)</span><span class="en">Goal (choose one)</span></label>
+        <select id="f-goal" name="goal" required></select>
+      </div>
+      <div class="form__field">
+        <label for="f-msg"><span class="si">Sporočilo (neobvezno)</span><span class="en">Message (optional)</span></label>
+        <textarea id="f-msg" name="message"></textarea>
+      </div>
+      <button type="submit" class="btn btn--volt"><span class="si">Pošlji</span><span class="en">Send</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M7 17L17 7M9 7h8v8"/></svg></button>
+      <span class="form__ok"><span class="si">✓ Sporočilo poslano! Odgovorim v najkrajšem možnem času.</span><span class="en">✓ Message sent! I'll get back to you as soon as possible.</span></span>
+    </form>
+  </div>
+</section>
+
+<!-- BIG CTA -->
+<section class="bigcta">
+  <div class="bigcta__dots"></div>
+  <h2>
+    <span class="reveal-line"><span><span class="si">Preveč fit,</span><span class="en">Too fit</span></span></span>
+    <span class="reveal-line"><span class="stroke"><span class="si">da bi odnehal.</span><span class="en">to fail.</span></span></span>
+  </h2>
+  <a href="#kontakt" class="btn btn--ink"><span class="si">Začni danes</span><span class="en">Start today</span>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M7 17L17 7M9 7h8v8"/></svg></a>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer__grid">
+    <div class="footer__brand">
+      <svg viewBox="0 0 77 48" xmlns="http://www.w3.org/2000/svg"><path d="M27.1059 23.7511L26.5773 23.2215H18.5404L18.0706 23.6922L16.1687 25.6021L4.51765 37.274V26.729L3.39275 25.6021L1.02099 23.2215L0 22.1987V47.8008L0.198776 48L4.51765 43.6734L6.58673 41.6006L6.86231 41.3245L9.03529 39.1476L9.78071 38.4009L11.38 36.7988L12.9747 35.2012L13.5529 34.6219L15.8976 32.273L16.1687 32.0015L18.0706 30.0961L19.3626 28.8018L20.4152 27.7473H24.7025L25.7551 28.8018L27.1059 30.155V42.9538L28.9491 44.8003L29.9972 45.8502L31.6235 47.4795V28.2813L28.9491 25.6021L27.1059 23.7511Z"/><path d="M47.6092 18.6958L45.1742 16.2565L44.9167 15.9985L41.7227 12.7988L40.6565 11.7307V7.46747L41.7227 6.3994L44.9618 9.64435L45.1742 9.85706L48.1106 12.7988L49.4795 14.1701L49.6918 14.3828L51.3091 15.9985L53.1343 14.1701L54.2095 13.093V9.64435H51.3543L51.3091 9.59909L49.6918 7.98341L48.1106 6.3994L46.8321 5.11861L45.1742 3.45767L44.9167 3.1997L41.7227 0L38.5287 3.1997L36.1389 0.805582L35.9265 0.592872L35.3347 0L25.7076 9.64435H22.5859V12.8259L23.9277 14.1701L25.7528 15.9985L35.3347 6.3994L36.1389 7.20498V11.9932L35.3347 12.7988L33.9659 14.1701L32.1408 15.9985L31.6212 16.519L29.4482 18.6958L28.9468 19.1982L31.6212 21.8774L32.1408 22.3979L35.3347 19.1982L35.8362 18.6958L36.1389 18.3926V45.6059L36.3828 45.8503L38.5287 48L40.6565 45.8684V18.1301L41.7227 19.1982L44.9167 22.3979L48.1106 19.1982L47.6092 18.6958Z"/><path d="M76.0364 23.2218L73.6647 25.6023L72.2778 26.9917V37.0117L72.0654 36.799L70.4707 35.2014L67.7601 32.4859L67.5478 32.2732L64.0827 28.802L63.2425 27.9602L63.0301 27.7475L60.8888 25.6023L58.7248 23.4299L58.517 23.2218H50.4846L45.1719 28.544V41.3247H45.1899L45.1719 41.3428V47.7422L47.0603 45.8505L48.1083 44.8005L49.6895 43.2165V30.4177L51.3068 28.802L52.3595 27.7475H56.6422L57.6948 28.802L58.7248 29.8339L60.8888 32.0017L61.1598 32.2732L63.2425 34.3596L64.0827 35.2014L67.2767 38.4011L67.7601 38.8853L70.1951 41.3247L70.4707 41.6008L72.2778 43.4111L73.6647 44.8005L74.7128 45.8505L76.7954 47.9368V22.4614L76.0364 23.2218Z"/></svg>
+      <p><span class="si">S celostno podporo in prilagojenimi programi vadbe ti pomagam dosegati fitnes cilje. Naredi korak bližje k zdravemu in aktivnemu življenjskemu slogu ter začni svojo pot do boljše različice sebe še danes!</span>
+      <span class="en">With comprehensive support and tailored training programmes, I help you reach your fitness goals. Take a step towards a healthy, active lifestyle and start your journey to a better you today.</span></p>
+    </div>
+    <div>
+      <h4><span class="si">Povezave</span><span class="en">Links</span></h4>
+      <ul>
+        <li><a href="#top"><span class="si">Domov</span><span class="en">Home</span></a></li>
+        <li><a href="#storitve"><span class="si">Storitve</span><span class="en">Services</span></a></li>
+        <li><a href="#transformacije"><span class="si">Transformacije</span><span class="en">Transformations</span></a></li>
+        <li><a href="#cenik"><span class="si">Cenik</span><span class="en">Pricing</span></a></li>
+        <li><a href="#kontakt"><span class="si">Kontakt</span><span class="en">Contact</span></a></li>
+      </ul>
+    </div>
+    <div>
+      <h4><span class="si">Kontakt</span><span class="en">Contact</span></h4>
+      <ul>
+        <li><a href="mailto:zan@2fit2fail.com">zan@2fit2fail.com</a></li>
+        <li><a href="tel:+38670999058">070 999 058</a></li>
+        <li><a href="https://www.instagram.com/zanhocevar_p/" target="_blank" rel="noopener">Instagram</a></li>
+        <li><a href="https://www.tiktok.com/@zan_hocevar_peganc" target="_blank" rel="noopener">TikTok</a></li>
+        <li><a href="https://si.linkedin.com/in/zan-hocevar-peganc" target="_blank" rel="noopener">LinkedIn</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer__giant" aria-hidden="true">2FIT2FAIL</div>
+  <div class="footer__bottom">
+    <span>2FIT2FAIL © 2026. All rights reserved.</span>
+    <span><span class="si">Osebno trenerstvo · Ljubljana</span><span class="en">Personal training · Ljubljana</span></span>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+/* Fallback: if GSAP/ScrollTrigger failed to load, stub them so the site stays fully functional (just without animations) */
+if(typeof gsap==='undefined'){
+  window.gsap={
+    registerPlugin:()=>{}, set:()=>{}, from:()=>{}, fromTo:()=>{},
+    to:(t,v)=>{if(v&&v.onUpdate){v.onUpdate();}if(v&&v.onComplete){v.onComplete();}},
+    timeline:(o)=>{const tl={to:(t,v,p)=>{if(v&&v.onUpdate)v.onUpdate();return tl;},from:()=>tl};
+      if(o&&o.onComplete)setTimeout(o.onComplete,50);return tl;},
+    ticker:{add:()=>{}}
+  };
+}
+if(typeof ScrollTrigger==='undefined'){window.ScrollTrigger={refresh:()=>{}};}
+gsap.registerPlugin(ScrollTrigger);
+const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* ============ LANGUAGE ============ */
+const goalOptions = {
+  si:["Izguba telesne teže","Povečanje mišične mase in moči","Izboljšanje splošne telesne pripravljenosti in kondicije","Rehabilitacija po poškodbah ali obvladovanje kroničnih bolečin"],
+  en:["Weight loss","Building muscle mass and strength","Improving overall fitness and conditioning","Injury rehabilitation or chronic pain management"]
+};
+const goalSel = document.getElementById('f-goal');
+function fillGoals(lang){
+  goalSel.innerHTML = '';
+  goalOptions[lang].forEach(t=>{
+    const o=document.createElement('option');o.textContent=t;o.value=t;goalSel.appendChild(o);
+  });
+}
+function setLang(lang){
+  document.documentElement.lang = lang;
+  document.querySelectorAll('#langToggle span').forEach(s=>s.classList.toggle('on',s.dataset.lang===lang));
+  fillGoals(lang);
+  try{localStorage.setItem('lang',lang);}catch(e){}
+  ScrollTrigger.refresh();
+}
+document.getElementById('langToggle').addEventListener('click',()=>{
+  setLang(document.documentElement.lang==='si'?'en':'si');
+});
+let savedLang='si';try{savedLang=localStorage.getItem('lang')||'si';}catch(e){}
+setLang(savedLang);
+
+/* ============ CURSOR ============ */
+(function(){
+  if(window.matchMedia('(hover:none)').matches) return;
+  const dot=document.querySelector('.cursor'), ring=document.querySelector('.cursor-ring');
+  let mx=innerWidth/2,my=innerHeight/2,rx=mx,ry=my;
+  addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;gsap.set(dot,{x:mx,y:my});});
+  gsap.ticker.add(()=>{rx+=(mx-rx)*.14;ry+=(my-ry)*.14;gsap.set(ring,{x:rx,y:ry});});
+  document.querySelectorAll('a,button,.ptab').forEach(el=>{
+    el.addEventListener('mouseenter',()=>ring.classList.add('is-active'));
+    el.addEventListener('mouseleave',()=>ring.classList.remove('is-active'));
+  });
+})();
+
+/* ============ THREE.JS — living halftone field ============ */
+(function(){
+  const canvas=document.getElementById('dots-canvas');
+  if(!canvas||typeof THREE==='undefined')return;
+  const renderer=new THREE.WebGLRenderer({canvas,alpha:true,antialias:true});
+  renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+  const scene=new THREE.Scene();
+  const camera=new THREE.PerspectiveCamera(55,1,0.1,100);
+  camera.position.set(0,2.2,10);
+  camera.lookAt(0,0,0);
+
+  const COLS=110,ROWS=54,W=26,H=13;
+  const count=COLS*ROWS;
+  const positions=new Float32Array(count*3);
+  const base=new Float32Array(count*3);
+  let i=0;
+  for(let y=0;y<ROWS;y++){
+    for(let x=0;x<COLS;x++){
+      const px=(x/(COLS-1)-.5)*W;
+      const pz=(y/(ROWS-1)-.5)*H;
+      base[i*3]=positions[i*3]=px;
+      base[i*3+1]=positions[i*3+1]=0;
+      base[i*3+2]=positions[i*3+2]=pz;
+      i++;
+    }
+  }
+  const geo=new THREE.BufferGeometry();
+  geo.setAttribute('position',new THREE.BufferAttribute(positions,3));
+  const mat=new THREE.PointsMaterial({color:0x231F20,size:0.085,sizeAttenuation:true,transparent:true,opacity:0.9});
+  const points=new THREE.Points(geo,mat);
+  points.rotation.x=-0.28;
+  scene.add(points);
+
+  let mouseX=0,mouseY=0,tx=0,ty=0;
+  addEventListener('mousemove',e=>{
+    mouseX=(e.clientX/innerWidth-.5)*2;
+    mouseY=(e.clientY/innerHeight-.5)*2;
+  });
+
+  function resize(){
+    const w=canvas.clientWidth,h=canvas.clientHeight;
+    renderer.setSize(w,h,false);
+    camera.aspect=w/h;camera.updateProjectionMatrix();
+  }
+  resize();addEventListener('resize',resize);
+
+  let t=0;
+  function tick(){
+    requestAnimationFrame(tick);
+    if(reduceMotion){renderer.render(scene,camera);return;}
+    t+=0.012;
+    const p=geo.attributes.position.array;
+    for(let j=0;j<count;j++){
+      const bx=base[j*3],bz=base[j*3+2];
+      p[j*3+1]=Math.sin(bx*0.55+t)*0.42+Math.cos(bz*0.8+t*1.3)*0.32
+              +Math.sin((bx+bz)*0.3+t*0.7)*0.25;
+    }
+    geo.attributes.position.needsUpdate=true;
+    tx+=(mouseX-tx)*.04;ty+=(mouseY-ty)*.04;
+    camera.position.x=tx*1.4;
+    camera.position.y=2.2-ty*0.8;
+    camera.lookAt(0,0,0);
+    renderer.render(scene,camera);
+  }
+  tick();
+})();
+
+/* ============ PRELOADER ============ */
+(function(){
+  const pl=document.getElementById('preloader');
+  const count=document.getElementById('pl-count');
+  const bar=document.getElementById('pl-bar');
+  document.body.style.overflow='hidden';
+  const state={v:0};
+  const tl=gsap.timeline({onComplete:finish});
+  tl.to('.preloader__logo',{opacity:1,duration:.5,ease:'power2.out'})
+    .to(state,{v:100,duration:reduceMotion?0.2:1.9,ease:'power3.inOut',
+      onUpdate:()=>{count.textContent=Math.round(state.v);bar.style.width=state.v+'%';}},0);
+  function finish(){
+    gsap.to(pl,{yPercent:-100,duration:.8,ease:'power4.inOut',
+      onComplete:()=>{pl.remove();document.body.style.overflow='';heroIn();}});
+  }
+})();
+
+/* ============ HERO ENTRANCE ============ */
+function heroIn(){
+  const tl=gsap.timeline({defaults:{ease:'power4.out'}});
+  tl.from('.hero .reveal-line > span',{yPercent:110,duration:1.1,stagger:.12})
+    .from('.hero__meta',{y:20,opacity:0,duration:.7},'-=.7')
+    .from('.hero__sub',{y:24,opacity:0,duration:.7},'-=.55')
+    .from('.hero__ctas',{y:24,opacity:0,duration:.7},'-=.5')
+    .from('#heroPortrait',{xPercent:16,opacity:0,duration:1.2,ease:'power3.out'},'-=1')
+    .from('.hero__scroll,.hero__badge',{opacity:0,duration:.6},'-=.5');
+}
+
+/* ============ SCROLL ANIMATIONS ============ */
+/* headline line reveals (outside hero) */
+document.querySelectorAll('section .reveal-line > span, .bigcta .reveal-line > span').forEach(el=>{
+  gsap.from(el,{yPercent:110,duration:1,ease:'power4.out',
+    scrollTrigger:{trigger:el,start:'top 88%'}});
+});
+/* cards + rows */
+document.querySelectorAll('[data-anim="card"]').forEach((el,idx)=>{
+  gsap.from(el,{y:56,opacity:0,duration:.9,ease:'power3.out',
+    scrollTrigger:{trigger:el,start:'top 90%'}});
+});
+document.querySelectorAll('[data-anim="row"]').forEach(el=>{
+  gsap.from(el,{x:-40,opacity:0,duration:.8,ease:'power3.out',
+    scrollTrigger:{trigger:el,start:'top 90%'}});
+});
+/* eyebrows + leads */
+document.querySelectorAll('.eyebrow,.lead,.pricing__tabs,.pricing__note').forEach(el=>{
+  gsap.from(el,{y:24,opacity:0,duration:.7,ease:'power2.out',
+    scrollTrigger:{trigger:el,start:'top 92%'}});
+});
+/* hero portrait parallax on scroll */
+gsap.to('#heroPortrait img',{yPercent:12,ease:'none',
+  scrollTrigger:{trigger:'.hero',start:'top top',end:'bottom top',scrub:true}});
+/* footer giant text slide */
+gsap.from('.footer__giant',{yPercent:40,opacity:0,ease:'power2.out',duration:1,
+  scrollTrigger:{trigger:'.footer__giant',start:'top 95%'}});
+
+/* ============ MARQUEES ============ */
+(function(){
+  const star='<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0l2.6 9.4L24 12l-9.4 2.6L12 24l-2.6-9.4L0 12l9.4-2.6z"/></svg>';
+  function build(id,items){
+    const track=document.getElementById(id);if(!track)return;
+    let html='';
+    for(let r=0;r<4;r++) items.forEach(t=>{html+='<span class="marquee__item">'+t+star+'</span>';});
+    track.innerHTML=html;
+  }
+  build('mtrack1',[
+    '<span class="si">Osebno trenerstvo</span><span class="en">Personal training</span>',
+    '<span class="si">Online coaching</span><span class="en">Online coaching</span>',
+    '<span class="si">Svetovanje</span><span class="en">Consulting</span>',
+    '<span class="si">Transformacije</span><span class="en">Transformations</span>',
+    '<span class="si">Gym delavnice</span><span class="en">Gym workshops</span>'
+  ]);
+  build('mtrack2',[
+    '<span class="si">Skupaj gradimo mišice in samozavest</span><span class="en">Building muscle &amp; confidence together</span>',
+    '2FIT2FAIL'
+  ]);
+  if(!reduceMotion){
+    gsap.to('#mtrack1',{xPercent:-25,ease:'none',duration:22,repeat:-1});
+    gsap.to('#mtrack2',{xPercent:-25,ease:'none',duration:26,repeat:-1});
+  }
+})();
+
+/* ============ NAV BEHAVIOUR ============ */
+(function(){
+  const nav=document.getElementById('nav');
+  let last=0;
+  addEventListener('scroll',()=>{
+    const y=scrollY;
+    nav.classList.toggle('is-scrolled',y>40);
+    if(y>last&&y>400&&!document.getElementById('mobileMenu').classList.contains('open')) nav.classList.add('is-hidden');
+    else nav.classList.remove('is-hidden');
+    last=y;
+  },{passive:true});
+  const burger=document.getElementById('burger'),menu=document.getElementById('mobileMenu');
+  burger.addEventListener('click',()=>{
+    burger.classList.toggle('open');menu.classList.toggle('open');
+    document.body.style.overflow=menu.classList.contains('open')?'hidden':'';
+  });
+  menu.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{
+    burger.classList.remove('open');menu.classList.remove('open');document.body.style.overflow='';
+  }));
+})();
+
+/* ============ PRICING TABS ============ */
+document.querySelectorAll('.ptab').forEach(tab=>{
+  tab.addEventListener('click',()=>{
+    document.querySelectorAll('.ptab').forEach(t=>t.classList.remove('on'));
+    document.querySelectorAll('.pane').forEach(p=>p.classList.remove('on'));
+    tab.classList.add('on');
+    const pane=document.getElementById(tab.dataset.pane);
+    pane.classList.add('on');
+    gsap.fromTo(pane.querySelectorAll('.price-card'),{y:36,opacity:0},{y:0,opacity:1,duration:.6,stagger:.08,ease:'power3.out'});
+    ScrollTrigger.refresh();
+  });
+});
+
+/* ============ MAGNETIC BUTTONS ============ */
+if(!window.matchMedia('(hover:none)').matches && !reduceMotion){
+  document.querySelectorAll('.btn').forEach(btn=>{
+    btn.addEventListener('mousemove',e=>{
+      const r=btn.getBoundingClientRect();
+      gsap.to(btn,{x:(e.clientX-r.left-r.width/2)*.22,y:(e.clientY-r.top-r.height/2)*.32,duration:.4,ease:'power2.out'});
+    });
+    btn.addEventListener('mouseleave',()=>gsap.to(btn,{x:0,y:0,duration:.5,ease:'elastic.out(1,.4)'}));
+  });
+}
+
+/* ============ CONTACT FORM ============ */
+document.getElementById('contactForm').addEventListener('submit',e=>{
+  e.preventDefault();
+  const f=e.target;
+  if(!f.checkValidity()){f.reportValidity();return;}
+  const lang=document.documentElement.lang;
+  const d=new FormData(f);
+  const subject=encodeURIComponent(lang==='si'?'Povpraševanje — Treniraj z mano':'Inquiry — Train with me');
+  const body=encodeURIComponent(
+    (lang==='si'?'Ime: ':'Name: ')+d.get('name')+'\n'+
+    (lang==='si'?'Telefon: ':'Phone: ')+d.get('phone')+'\nE-mail: '+d.get('email')+'\n'+
+    (lang==='si'?'Cilj: ':'Goal: ')+d.get('goal')+'\n\n'+(d.get('message')||''));
+  location.href='mailto:zan@2fit2fail.com?subject='+subject+'&body='+body;
+  f.classList.add('sent');
+});
+</script>
+</body>
+</html>
