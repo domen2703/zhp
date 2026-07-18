@@ -237,18 +237,10 @@ html[lang="en"] .si{display:none !important;}
 .scrub__frame i:nth-child(3){bottom:0;left:0;border-right:none;border-top:none;}
 .scrub__frame i:nth-child(4){bottom:0;right:0;border-left:none;border-top:none;}
 
-/* ============ TRAINER TIMELINE ============ */
-.scrub__timeline{position:absolute;bottom:clamp(60px,8vh,100px);left:50%;transform:translateX(-50%);width:min(530px,90vw);max-width:100%;z-index:4;pointer-events:none;}
-.timeline-track{position:relative;height:48px;background:rgba(255,253,238,.03);border:1px solid rgba(255,253,238,.12);border-radius:0px;display:flex;justify-content:space-between;align-items:center;padding:0 12px;gap:2px;}
-.timeline-progress{position:absolute;top:0;left:0;height:100%;background:linear-gradient(90deg,rgba(196,247,44,.25),rgba(196,247,44,.08));width:0;border-radius:0px;transition:width .15s ease-out;z-index:-1;}
-.timeline-marker{position:absolute;top:50%;left:0;transform:translate(-50%,-50%);width:28px;height:28px;background:var(--volt);border:2px solid rgba(196,247,44,.5);border-radius:50%;display:grid;place-items:center;color:var(--ink);opacity:0;transition:opacity .25s;z-index:5;}
-.timeline-marker svg{width:16px;height:16px;}
-.timeline-marker.active{opacity:1;}
-.timeline-stage{position:relative;display:flex;flex-direction:column;align-items:center;gap:4px;flex:1;min-width:0;}
-.timeline-dot{width:6px;height:6px;background:rgba(196,247,44,.35);border-radius:50%;transition:background .25s;}
-.timeline-stage.active .timeline-dot{background:var(--volt);box-shadow:0 0 6px rgba(196,247,44,.5);}
-.timeline-label{font-family:var(--font-mono);font-size:8px;letter-spacing:.12em;text-transform:uppercase;color:var(--bone-soft);text-align:center;line-height:1;opacity:.4;transition:opacity .25s;overflow:hidden;text-overflow:ellipsis;}
-.timeline-stage.active .timeline-label{opacity:.9;color:var(--volt);}
+/* ============ TRAINER STATUS — minimal progress indicator ============ */
+.scrub__trainer-status{position:absolute;right:clamp(12px,3vw,40px);top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:12px;z-index:4;pointer-events:none;width:64px;}
+.trainer-step{font-family:var(--font-mono);font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:var(--bone-soft);opacity:.3;transition:opacity .25s,color .25s;text-align:right;}
+.trainer-step.active{opacity:1;color:var(--volt);}
 .scrub__hud{position:absolute;inset:0;z-index:3;pointer-events:none;padding:clamp(90px,13vh,130px) calc(var(--pad) + 18px) clamp(60px,9vh,90px);display:flex;flex-direction:column;justify-content:space-between;}
 .scrub__hud-top{display:flex;justify-content:space-between;align-items:start;gap:20px;}
 .scrub__hud h2{font-size:clamp(30px,4.6vw,72px);max-width:7em;}
@@ -390,29 +382,29 @@ html[lang="en"] .si{display:none !important;}
 .contact__grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(40px,6vw,100px);position:relative;}
 .contact__info .lead{margin-bottom:48px;}
 .contact__rows{border-top:1px solid var(--hairline-d);}
-.contact__row{display:flex;justify-content:space-between;align-items:center;padding:22px 0;border-bottom:1px solid var(--hairline-d);gap:20px;}
-.contact__row b{font-family:var(--font-mono);font-size:11px;letter-spacing:.26em;text-transform:uppercase;color:var(--bone-soft);font-weight:400;}
-.contact__row a{font-family:var(--font-ui);font-weight:600;font-size:clamp(16px,1.5vw,20px);transition:color .3s;}
+.contact__row{display:flex;align-items:center;padding:22px 0;border-bottom:1px solid var(--hairline-d);gap:32px;}
+.contact__row b{font-family:var(--font-mono);font-size:11px;letter-spacing:.26em;text-transform:uppercase;color:var(--bone-soft);font-weight:400;flex:0 0 auto;min-width:100px;}
+.contact__row a{font-family:var(--font-ui);font-weight:600;font-size:clamp(16px,1.5vw,20px);transition:color .3s;flex:1;}
 .contact__row a:hover{color:var(--volt);}
 .socials{display:flex;gap:14px;margin-top:36px;}
 .socials a{width:48px;height:48px;border:1px solid rgba(255,253,238,.28);display:grid;place-items:center;transition:.3s;border-radius:50%;}
 .socials a:hover{background:var(--volt);border-color:var(--volt);}
 .socials svg{width:18px;height:18px;fill:var(--bone);transition:.3s;}
 .socials a:hover svg{fill:var(--ink);}
-.form{display:grid;gap:22px;}
-.form h3{margin-bottom:6px;}
-.form__field label{display:block;font-family:var(--font-mono);font-size:11px;letter-spacing:.26em;text-transform:uppercase;color:var(--bone-soft);margin-bottom:10px;}
+.form{display:grid;gap:28px;}
+.form h3{margin-bottom:4px;}
+.form__field{position:relative;display:flex;flex-direction:column;}
+.form__field label{display:block;font-family:var(--font-mono);font-size:11px;letter-spacing:.26em;text-transform:uppercase;color:var(--bone-soft);margin-bottom:14px;font-weight:400;}
 .form__field input,.form__field select,.form__field textarea{
   width:100%;background:transparent;border:none;border-bottom:1.5px solid rgba(255,253,238,.32);
-  color:var(--bone);font-family:var(--font-ui);font-size:16px;padding:12px 2px;outline:none;transition:border-color .3s;
+  color:var(--bone);font-family:var(--font-ui);font-size:16px;padding:14px 0;outline:none;transition:border-color .3s;
   border-radius:0;appearance:none;-webkit-appearance:none;
 }
 .form__field select option{background:var(--ink);color:var(--bone);}
 .form__field input:focus,.form__field select:focus,.form__field textarea:focus{border-color:var(--volt);}
 .form__field textarea{resize:vertical;min-height:88px;}
-.form__field{position:relative;}
-.form__field.sel::after{content:"";position:absolute;right:6px;bottom:22px;width:9px;height:9px;border-right:1.5px solid var(--volt);border-bottom:1.5px solid var(--volt);transform:rotate(45deg);pointer-events:none;}
-.form .btn{justify-content:center;margin-top:8px;}
+.form__field.sel::after{content:"";position:absolute;right:0;bottom:14px;width:9px;height:9px;border-right:1.5px solid var(--volt);border-bottom:1.5px solid var(--volt);transform:rotate(45deg);pointer-events:none;}
+.form .btn{justify-content:center;margin-top:6px;}
 .form__ok{display:none;font-family:var(--font-mono);font-size:13px;color:var(--volt);letter-spacing:.08em;}
 .form.sent .form__ok{display:block;}
 
@@ -581,34 +573,13 @@ html[lang="en"] .si{display:none !important;}
     <div class="scrub__glow"></div>
     <canvas id="morph-canvas" width="550" height="800" aria-label="Animacija telesne transformacije"></canvas>
     <div class="scrub__frame"><i></i><i></i><i></i><i></i></div>
-    <!-- Trainer timeline progression -->
-    <div class="scrub__timeline">
-      <div class="timeline-track">
-        <div class="timeline-stage" style="--stage-pct:0%">
-          <span class="timeline-dot"></span>
-          <span class="timeline-label"><span class="si">Ocena</span><span class="en">Assessment</span></span>
-        </div>
-        <div class="timeline-stage" style="--stage-pct:25%">
-          <span class="timeline-dot"></span>
-          <span class="timeline-label"><span class="si">Načrt</span><span class="en">Strategy</span></span>
-        </div>
-        <div class="timeline-stage" style="--stage-pct:50%">
-          <span class="timeline-dot"></span>
-          <span class="timeline-label"><span class="si">Vodenje</span><span class="en">Coaching</span></span>
-        </div>
-        <div class="timeline-stage" style="--stage-pct:75%">
-          <span class="timeline-dot"></span>
-          <span class="timeline-label"><span class="si">Potiskanje</span><span class="en">Progression</span></span>
-        </div>
-        <div class="timeline-stage" style="--stage-pct:100%">
-          <span class="timeline-dot"></span>
-          <span class="timeline-label"><span class="si">Rezultat</span><span class="en">Results</span></span>
-        </div>
-      </div>
-      <div class="timeline-progress" id="timelineProgress"></div>
-      <div class="timeline-marker" id="timelineMarker">
-        <svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M12 1C6.5 1 2 5.5 2 11s4.5 10 10 10 10-4.5 10-10S17.5 1 12 1m0 18c-4.4 0-8-3.6-8-8s3.6-8 8-8 8 3.6 8 8-3.6 8-8 8m3.5-9c.8 0 1.5-.7 1.5-1.5S16.3 7 15.5 7 14 7.7 14 8.5s.7 1.5 1.5 1.5m-7 0c.8 0 1.5-.7 1.5-1.5S9.3 7 8.5 7 7 7.7 7 8.5 7.7 10 8.5 10m3.5 6.5c2.3 0 4.3-1.5 5-3.6H6.5c.7 2.1 2.7 3.6 5 3.6z"/></svg>
-      </div>
+    <!-- Trainer progress indicator — minimal value-add -->
+    <div class="scrub__trainer-status">
+      <div class="trainer-step" id="trainerStep1"><span class="si">Ocena</span><span class="en">Assess</span></div>
+      <div class="trainer-step" id="trainerStep2"><span class="si">Načrt</span><span class="en">Plan</span></div>
+      <div class="trainer-step" id="trainerStep3"><span class="si">Vodi</span><span class="en">Guide</span></div>
+      <div class="trainer-step" id="trainerStep4"><span class="si">Potiska</span><span class="en">Push</span></div>
+      <div class="trainer-step" id="trainerStep5"><span class="si">Rezultat</span><span class="en">Result</span></div>
     </div>
     <div class="scrub__hud">
       <div class="scrub__hud-top">
@@ -1335,22 +1306,13 @@ const Morph=(function(){
       pct.textContent=Math.round(self.progress*100);
       bar.style.transform='scaleX('+self.progress+')';
       
-      /* sync trainer timeline to scroll progress */
-      const p=self.progress*100;
-      const progress=document.getElementById('timelineProgress');
-      const marker=document.getElementById('timelineMarker');
-      const stages=document.querySelectorAll('.timeline-stage');
-      
-      if(progress)progress.style.width=p+'%';
-      if(marker){
-        marker.style.left=p+'%';
-        marker.classList.toggle('active',p>5&&p<95);
-      }
-      
-      stages.forEach((stage,i)=>{
-        const stagePct=i*25;
-        const isActive=Math.abs(p-stagePct)<12;
-        stage.classList.toggle('active',isActive);
+      /* sync trainer status to scroll progress */
+      const p=Math.round(self.progress*100);
+      [1,2,3,4,5].forEach(step=>{
+        const el=document.getElementById('trainerStep'+step);
+        if(!el)return;
+        const threshold=step*20-15;
+        el.classList.toggle('active',p>=threshold);
       });
     }
   });
