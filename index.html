@@ -87,12 +87,12 @@ html[lang="en"] .si{display:none !important;}
 /* ================= NAV — floating glass ================= */
 .nav{
   position:fixed;top:18px;left:0;right:0;margin:0 auto;width:max-content;z-index:900;
-  display:flex;align-items:center;gap:6px;
-  padding:8px 10px;border-radius:100px;
-  background:rgba(23,20,21,.6);
-  backdrop-filter:blur(20px) saturate(1.5);-webkit-backdrop-filter:blur(20px) saturate(1.5);
-  border:1px solid rgba(255,253,238,.13);
-  box-shadow:0 18px 48px rgba(0,0,0,.4),inset 0 1px 0 rgba(255,253,238,.1),inset 0 -1px 0 rgba(0,0,0,.25);
+  display:flex;align-items:center;gap:12px;
+  padding:12px 24px;border-radius:100px;
+  background:rgba(23,20,21,.75);
+  backdrop-filter:blur(32px) saturate(1.8);-webkit-backdrop-filter:blur(32px) saturate(1.8);
+  border:1.5px solid rgba(255,253,238,.22);
+  box-shadow:0 28px 64px rgba(0,0,0,.55),inset 0 1.5px 1px rgba(255,253,238,.15),inset 0 -1px 0 rgba(0,0,0,.4);
   color:var(--bone);
   transition:transform .55s var(--ease-io),opacity .4s;
   max-width:calc(100vw - 32px);
@@ -225,6 +225,18 @@ html[lang="en"] .si{display:none !important;}
 .scrub__grid{position:absolute;inset:0;opacity:.05;background-image:linear-gradient(var(--bone) 1px,transparent 1px),linear-gradient(90deg,var(--bone) 1px,transparent 1px);background-size:80px 80px;}
 .scrub__glow{position:absolute;width:min(70vw,760px);aspect-ratio:1;border-radius:50%;background:radial-gradient(closest-side,rgba(196,247,44,.10),transparent 70%);z-index:1;}
 #morph-canvas{height:min(78svh,760px);aspect-ratio:11/16;display:block;position:relative;z-index:2;}
+.scrub__trainer{position:absolute;inset:0;z-index:1;pointer-events:none;padding:clamp(90px,13vh,130px) calc(var(--pad) + 18px) clamp(60px,9vh,90px);}
+.trainer-cue{position:absolute;font-family:var(--font-mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--bone-soft);opacity:0;will-change:opacity,transform;
+  background:rgba(23,20,21,.6);backdrop-filter:blur(12px);border:1px solid rgba(196,247,44,.35);border-radius:6px;padding:10px 14px;white-space:nowrap;}
+#trainerCue1{top:20%;right:8%;animation:cueIn1 .6s var(--ease-out) forwards;}
+#trainerCue2{top:42%;left:6%;animation:cueIn2 .6s var(--ease-out) forwards;}
+#trainerCue3{top:62%;right:4%;animation:cueIn3 .6s var(--ease-out) forwards;}
+#trainerCue4{bottom:16%;left:8%;animation:cueIn4 .6s var(--ease-out) forwards;}
+@keyframes cueIn1{0%{opacity:0;transform:translateY(-12px)}30%{opacity:1;transform:translateY(0)}70%{opacity:1;transform:translateY(0)}100%{opacity:0;transform:translateY(-12px)}}
+@keyframes cueIn2{0%{opacity:0;transform:translateX(-12px)}35%{opacity:1;transform:translateX(0)}75%{opacity:1;transform:translateX(0)}100%{opacity:0;transform:translateX(-12px)}}
+@keyframes cueIn3{0%{opacity:0;transform:translateY(12px)}40%{opacity:1;transform:translateY(0)}80%{opacity:1;transform:translateY(0)}100%{opacity:0;transform:translateY(12px)}}
+@keyframes cueIn4{0%{opacity:0;transform:translateX(12px)}45%{opacity:1;transform:translateX(0)}85%{opacity:1;transform:translateX(0)}100%{opacity:0;transform:translateX(12px)}}
+
 /* technical frame around the interaction */
 .scrub__frame{position:absolute;inset:clamp(70px,10vh,110px) var(--pad);z-index:3;pointer-events:none;}
 .scrub__frame i{position:absolute;width:22px;height:22px;border:1.5px solid rgba(196,247,44,.6);}
@@ -282,11 +294,6 @@ html[lang="en"] .si{display:none !important;}
 .stat span{display:block;margin-top:12px;font-size:13px;color:var(--bone-soft);max-width:240px;line-height:1.6;}
 .stats__col--r .stat span{margin-left:auto;}
 .stats__portrait{position:relative;align-self:end;will-change:transform;}
-.stats__portrait .frame{position:relative;overflow:hidden;}
-.stats__portrait img{width:100%;filter:contrast(1.12) brightness(.97);}
-/* stage spotlight cone */
-.stats__portrait::before{content:"";position:absolute;left:50%;top:-6%;width:150%;height:110%;transform:translateX(-50%);z-index:-1;
-  background:radial-gradient(50% 42% at 50% 22%,rgba(196,247,44,.20),transparent 72%);}
 .stats__portrait .light{position:absolute;inset:0;pointer-events:none;
   background:linear-gradient(200deg,rgba(255,253,238,.30),transparent 40%),linear-gradient(0deg,rgba(23,20,21,.55),transparent 34%);
   mix-blend-mode:soft-light;}
@@ -304,17 +311,18 @@ html[lang="en"] .si{display:none !important;}
 .trans-card{background:var(--ink);color:var(--bone);position:relative;overflow:hidden;border:1.5px solid var(--ink);}
 .trans-card__img{aspect-ratio:4/4.6;overflow:hidden;position:relative;background:#101011;}
 .trans-card__img img{width:100%;height:100%;object-fit:cover;
-  filter:contrast(1.18) saturate(.72) brightness(.94) url(#halftone);
+  filter:grayscale(1) contrast(1.25) brightness(.95);
   transition:transform .9s var(--ease-out),opacity .5s var(--ease-out),filter .6s;transform:scale(1.04);}
 .trans-card__img .after{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;
-  filter:contrast(1.18) saturate(.72) brightness(.94) url(#halftone);
+  filter:grayscale(1) contrast(1.25) brightness(.95);
   transition:opacity .5s var(--ease-out);transform:scale(1.04);}
 .trans-card:hover .trans-card__img img{opacity:0;}
 .trans-card:hover .trans-card__img .after{opacity:1;}
 .trans-card:hover .trans-card__img img,.trans-card:hover .trans-card__img .after{transform:scale(1.1);}
-/* cinematic vignette + top light */
+/* halftone dot overlay — pure B&W */
 .trans-card__img::after{content:"";position:absolute;inset:0;pointer-events:none;
-  background:linear-gradient(180deg,rgba(255,253,238,.08),transparent 26%,transparent 62%,rgba(16,16,17,.62));}
+  background-image:radial-gradient(rgba(23,20,21,.85) 1.2px,transparent 1.4px);background-size:4px 4px;
+  mix-blend-mode:overlay;}
 .trans-card__bar{display:flex;justify-content:space-between;align-items:center;padding:18px 22px;border-top:2px solid var(--volt);}
 .trans-card__bar h3{font-size:19px;}
 .trans-card__kg{font-family:var(--font-display);font-weight:700;font-size:26px;color:var(--volt);}
@@ -568,6 +576,13 @@ html[lang="en"] .si{display:none !important;}
     <div class="scrub__glow"></div>
     <canvas id="morph-canvas" width="550" height="800" aria-label="Animacija telesne transformacije"></canvas>
     <div class="scrub__frame"><i></i><i></i><i></i><i></i></div>
+    <!-- Trainer callouts -->
+    <div class="scrub__trainer">
+      <div class="trainer-cue" id="trainerCue1"><span class="si">Trener vodi</span><span class="en">Trainer guides</span></div>
+      <div class="trainer-cue" id="trainerCue2"><span class="si">Prilagaja progresijo</span><span class="en">Adjusts progression</span></div>
+      <div class="trainer-cue" id="trainerCue3"><span class="si">Korigira formo</span><span class="en">Corrects form</span></div>
+      <div class="trainer-cue" id="trainerCue4"><span class="si">Motivira napredek</span><span class="en">Motivates progress</span></div>
+    </div>
     <div class="scrub__hud">
       <div class="scrub__hud-top">
         <h2><span class="si">Transformacija se zgodi <em>tukaj.</em></span><span class="en">Transformation happens <em>here.</em></span></h2>
@@ -1292,6 +1307,16 @@ const Morph=(function(){
       Morph.set(self.progress);
       pct.textContent=Math.round(self.progress*100);
       bar.style.transform='scaleX('+self.progress+')';
+      /* sync trainer cue animations to scroll progress */
+      const p=self.progress;
+      ['trainerCue1','trainerCue2','trainerCue3','trainerCue4'].forEach((id,i)=>{
+        const el=document.getElementById(id);
+        if(!el)return;
+        const delay=i*0.12;
+        if(p<delay){el.style.animationPlayState='paused';el.style.animationDelay='0s';}
+        else if(p>(delay+0.55)){el.style.animationPlayState='paused';}
+        else{el.style.animationPlayState='running';el.style.animationDelay='-'+((p-delay)*100*0.6)+'ms';}
+      });
     }
   });
 })();
