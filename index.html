@@ -88,7 +88,7 @@ html[lang="en"] .si{display:none !important;}
 .nav{
   position:fixed;top:18px;left:0;right:0;margin:0 auto;width:max-content;z-index:900;
   display:flex;align-items:center;gap:12px;
-  padding:12px 24px;border-radius:100px;
+  padding:12px 24px;border-radius:0px;
   background:rgba(23,20,21,.75);
   backdrop-filter:blur(32px) saturate(1.8);-webkit-backdrop-filter:blur(32px) saturate(1.8);
   border:1.5px solid rgba(255,253,238,.22);
@@ -98,7 +98,7 @@ html[lang="en"] .si{display:none !important;}
   max-width:calc(100vw - 32px);
 }
 .nav.is-hidden{transform:translateY(-160%);}
-.nav__logo{display:grid;place-items:center;width:46px;height:46px;border-radius:50%;background:rgba(255,253,238,.06);transition:background .3s;flex:none;}
+.nav__logo{display:grid;place-items:center;width:46px;height:46px;border-radius:6px;background:rgba(255,253,238,.06);transition:background .3s;flex:none;}
 .nav__logo:hover{background:rgba(196,247,44,.14);}
 .nav__logo svg{width:30px;height:auto;}
 .nav__logo svg path{fill:var(--bone);transition:fill .3s;}
@@ -191,7 +191,8 @@ html[lang="en"] .si{display:none !important;}
   width:clamp(300px,34vw,520px);pointer-events:none;will-change:transform;
 }
 .hero__portrait .frame{position:relative;clip-path:inset(0 0 0 0);}
-.hero__portrait img{width:100%;filter:contrast(1.12) brightness(.98);}
+.hero__portrait img{width:100%;filter:contrast(1.6) brightness(1.08) saturate(1.1);mix-blend-mode:screen;}
+.stats__portrait .frame img{width:100%;filter:contrast(1.6) brightness(1.08) saturate(1.1);mix-blend-mode:screen;}
 /* cinematic light: warm key from top-left, ink ground shadow, rim */
 .hero__portrait .light{position:absolute;inset:0;pointer-events:none;
   background:
@@ -226,17 +227,6 @@ html[lang="en"] .si{display:none !important;}
 .scrub__glow{position:absolute;width:min(70vw,760px);aspect-ratio:1;border-radius:50%;background:radial-gradient(closest-side,rgba(196,247,44,.10),transparent 70%);z-index:1;}
 #morph-canvas{height:min(78svh,760px);aspect-ratio:11/16;display:block;position:relative;z-index:2;}
 .scrub__trainer{position:absolute;inset:0;z-index:1;pointer-events:none;padding:clamp(90px,13vh,130px) calc(var(--pad) + 18px) clamp(60px,9vh,90px);}
-.trainer-cue{position:absolute;font-family:var(--font-mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--bone-soft);opacity:0;will-change:opacity,transform;
-  background:rgba(23,20,21,.6);backdrop-filter:blur(12px);border:1px solid rgba(196,247,44,.35);border-radius:6px;padding:10px 14px;white-space:nowrap;}
-#trainerCue1{top:20%;right:8%;animation:cueIn1 .6s var(--ease-out) forwards;}
-#trainerCue2{top:42%;left:6%;animation:cueIn2 .6s var(--ease-out) forwards;}
-#trainerCue3{top:62%;right:4%;animation:cueIn3 .6s var(--ease-out) forwards;}
-#trainerCue4{bottom:16%;left:8%;animation:cueIn4 .6s var(--ease-out) forwards;}
-@keyframes cueIn1{0%{opacity:0;transform:translateY(-12px)}30%{opacity:1;transform:translateY(0)}70%{opacity:1;transform:translateY(0)}100%{opacity:0;transform:translateY(-12px)}}
-@keyframes cueIn2{0%{opacity:0;transform:translateX(-12px)}35%{opacity:1;transform:translateX(0)}75%{opacity:1;transform:translateX(0)}100%{opacity:0;transform:translateX(-12px)}}
-@keyframes cueIn3{0%{opacity:0;transform:translateY(12px)}40%{opacity:1;transform:translateY(0)}80%{opacity:1;transform:translateY(0)}100%{opacity:0;transform:translateY(12px)}}
-@keyframes cueIn4{0%{opacity:0;transform:translateX(12px)}45%{opacity:1;transform:translateX(0)}85%{opacity:1;transform:translateX(0)}100%{opacity:0;transform:translateX(12px)}}
-
 /* technical frame around the interaction */
 .scrub__frame{position:absolute;inset:clamp(70px,10vh,110px) var(--pad);z-index:3;pointer-events:none;}
 .scrub__frame i{position:absolute;width:22px;height:22px;border:1.5px solid rgba(196,247,44,.6);}
@@ -244,6 +234,19 @@ html[lang="en"] .si{display:none !important;}
 .scrub__frame i:nth-child(2){top:0;right:0;border-left:none;border-bottom:none;}
 .scrub__frame i:nth-child(3){bottom:0;left:0;border-right:none;border-top:none;}
 .scrub__frame i:nth-child(4){bottom:0;right:0;border-left:none;border-top:none;}
+
+/* ============ TRAINER TIMELINE ============ */
+.scrub__timeline{position:absolute;bottom:clamp(40px,6vh,80px);left:50%;transform:translateX(-50%);width:min(480px,85vw);z-index:4;pointer-events:none;}
+.timeline-track{position:relative;height:56px;background:rgba(255,253,238,.04);border:1px solid rgba(255,253,238,.12);border-radius:4px;display:flex;justify-content:space-between;align-items:center;padding:0 16px;}
+.timeline-progress{position:absolute;top:0;left:0;height:100%;background:linear-gradient(90deg,rgba(196,247,44,.3),rgba(196,247,44,.12));width:0;border-radius:4px;transition:width .2s ease-out;z-index:-1;}
+.timeline-marker{position:absolute;top:50%;left:0;transform:translate(-50%,-50%);width:32px;height:32px;background:var(--volt);border:2px solid rgba(196,247,44,.6);border-radius:50%;display:grid;place-items:center;color:var(--ink);opacity:0;transition:opacity .3s;z-index:5;}
+.timeline-marker svg{width:18px;height:18px;}
+.timeline-marker.active{opacity:1;}
+.timeline-stage{position:relative;display:flex;flex-direction:column;align-items:center;gap:6px;flex:1;}
+.timeline-dot{width:8px;height:8px;background:rgba(196,247,44,.4);border-radius:50%;transition:background .3s;}
+.timeline-stage.active .timeline-dot{background:var(--volt);box-shadow:0 0 8px rgba(196,247,44,.6);}
+.timeline-label{font-family:var(--font-mono);font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:var(--bone-soft);text-align:center;line-height:1.2;opacity:.5;transition:opacity .3s;}
+.timeline-stage.active .timeline-label{opacity:1;color:var(--volt);}
 .scrub__hud{position:absolute;inset:0;z-index:3;pointer-events:none;padding:clamp(90px,13vh,130px) calc(var(--pad) + 18px) clamp(60px,9vh,90px);display:flex;flex-direction:column;justify-content:space-between;}
 .scrub__hud-top{display:flex;justify-content:space-between;align-items:start;gap:20px;}
 .scrub__hud h2{font-size:clamp(30px,4.6vw,72px);max-width:7em;}
@@ -527,7 +530,7 @@ html[lang="en"] .si{display:none !important;}
 
     <div class="hero__portrait" id="heroPortrait">
       <div class="frame" id="heroFrame">
-        <img src="zhp.png" alt="Žan Hočevar Peganc — osebni trener" fetchpriority="high">
+        <img src="assets/zhp.png" alt="Žan Hočevar Peganc — osebni trener" fetchpriority="high">
         <div class="light"></div>
         <div class="grain"></div>
       </div>
@@ -576,12 +579,34 @@ html[lang="en"] .si{display:none !important;}
     <div class="scrub__glow"></div>
     <canvas id="morph-canvas" width="550" height="800" aria-label="Animacija telesne transformacije"></canvas>
     <div class="scrub__frame"><i></i><i></i><i></i><i></i></div>
-    <!-- Trainer callouts -->
-    <div class="scrub__trainer">
-      <div class="trainer-cue" id="trainerCue1"><span class="si">Trener vodi</span><span class="en">Trainer guides</span></div>
-      <div class="trainer-cue" id="trainerCue2"><span class="si">Prilagaja progresijo</span><span class="en">Adjusts progression</span></div>
-      <div class="trainer-cue" id="trainerCue3"><span class="si">Korigira formo</span><span class="en">Corrects form</span></div>
-      <div class="trainer-cue" id="trainerCue4"><span class="si">Motivira napredek</span><span class="en">Motivates progress</span></div>
+    <!-- Trainer timeline progression -->
+    <div class="scrub__timeline">
+      <div class="timeline-track">
+        <div class="timeline-stage" style="--stage-pct:0%">
+          <span class="timeline-dot"></span>
+          <span class="timeline-label"><span class="si">Analiza</span><span class="en">Analysis</span></span>
+        </div>
+        <div class="timeline-stage" style="--stage-pct:25%">
+          <span class="timeline-dot"></span>
+          <span class="timeline-label"><span class="si">Načrt</span><span class="en">Plan</span></span>
+        </div>
+        <div class="timeline-stage" style="--stage-pct:50%">
+          <span class="timeline-dot"></span>
+          <span class="timeline-label"><span class="si">Vodi</span><span class="en">Guide</span></span>
+        </div>
+        <div class="timeline-stage" style="--stage-pct:75%">
+          <span class="timeline-dot"></span>
+          <span class="timeline-label"><span class="si">Prina</span><span class="en">Push</span></span>
+        </div>
+        <div class="timeline-stage" style="--stage-pct:100%">
+          <span class="timeline-dot"></span>
+          <span class="timeline-label"><span class="si">Rezultat</span><span class="en">Result</span></span>
+        </div>
+      </div>
+      <div class="timeline-progress" id="timelineProgress"></div>
+      <div class="timeline-marker" id="timelineMarker">
+        <svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M12 1C6.5 1 2 5.5 2 11s4.5 10 10 10 10-4.5 10-10S17.5 1 12 1m0 18c-4.4 0-8-3.6-8-8s3.6-8 8-8 8 3.6 8 8-3.6 8-8 8m3.5-9c.8 0 1.5-.7 1.5-1.5S16.3 7 15.5 7 14 7.7 14 8.5s.7 1.5 1.5 1.5m-7 0c.8 0 1.5-.7 1.5-1.5S9.3 7 8.5 7 7 7.7 7 8.5 7.7 10 8.5 10m3.5 6.5c2.3 0 4.3-1.5 5-3.6H6.5c.7 2.1 2.7 3.6 5 3.6z"/></svg>
+      </div>
     </div>
     <div class="scrub__hud">
       <div class="scrub__hud-top">
@@ -695,7 +720,7 @@ html[lang="en"] .si{display:none !important;}
     <div class="stats__portrait" data-anim="fade" id="statsPortrait">
       <span class="stats__label">ŽAN — 2FIT2FAIL</span>
       <div class="frame">
-        <img src="zhp.png" alt="Žan Hočevar Peganc" loading="lazy">
+        <img src="assets/zhp.png" alt="Žan Hočevar Peganc" loading="lazy">
         <div class="light"></div>
         <div class="grain"></div>
       </div>
@@ -1307,15 +1332,23 @@ const Morph=(function(){
       Morph.set(self.progress);
       pct.textContent=Math.round(self.progress*100);
       bar.style.transform='scaleX('+self.progress+')';
-      /* sync trainer cue animations to scroll progress */
-      const p=self.progress;
-      ['trainerCue1','trainerCue2','trainerCue3','trainerCue4'].forEach((id,i)=>{
-        const el=document.getElementById(id);
-        if(!el)return;
-        const delay=i*0.12;
-        if(p<delay){el.style.animationPlayState='paused';el.style.animationDelay='0s';}
-        else if(p>(delay+0.55)){el.style.animationPlayState='paused';}
-        else{el.style.animationPlayState='running';el.style.animationDelay='-'+((p-delay)*100*0.6)+'ms';}
+      
+      /* sync trainer timeline to scroll progress */
+      const p=self.progress*100;
+      const progress=document.getElementById('timelineProgress');
+      const marker=document.getElementById('timelineMarker');
+      const stages=document.querySelectorAll('.timeline-stage');
+      
+      if(progress)progress.style.width=p+'%';
+      if(marker){
+        marker.style.left=p+'%';
+        marker.classList.toggle('active',p>5&&p<95);
+      }
+      
+      stages.forEach((stage,i)=>{
+        const stagePct=i*25;
+        const isActive=Math.abs(p-stagePct)<12;
+        stage.classList.toggle('active',isActive);
       });
     }
   });
