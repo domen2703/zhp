@@ -8,6 +8,19 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<!-- SVG halftone filter -->
+<svg style="display:none;" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<filter id="halftone">
+<feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="3" result="noise" seed="2"/>
+<feDisplacementMap in="SourceGraphic" in2="noise" scale="2" xChannelSelector="R" yChannelSelector="G"/>
+<feColorMatrix type="saturate" values="0.75"/>
+<feConvolveMatrix kernelMatrix="0 -1 0 -1 5 -1 0 -1 0" order="3 3" divisor="1" bias="0" preserveAlpha="true"/>
+</filter>
+</defs>
+</svg>
+
 <style>
 @font-face{
   font-family:'Heming';
@@ -291,9 +304,14 @@ html[lang="en"] .si{display:none !important;}
 .trans-card{background:var(--ink);color:var(--bone);position:relative;overflow:hidden;border:1.5px solid var(--ink);}
 .trans-card__img{aspect-ratio:4/4.6;overflow:hidden;position:relative;background:#101011;}
 .trans-card__img img{width:100%;height:100%;object-fit:cover;
-  filter:contrast(1.18) saturate(.72) brightness(.94);
-  transition:transform .9s var(--ease-out),filter .6s;transform:scale(1.04);}
-.trans-card:hover .trans-card__img img{transform:scale(1.1);filter:contrast(1.1) saturate(1) brightness(1);}
+  filter:contrast(1.18) saturate(.72) brightness(.94) url(#halftone);
+  transition:transform .9s var(--ease-out),opacity .5s var(--ease-out),filter .6s;transform:scale(1.04);}
+.trans-card__img .after{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;
+  filter:contrast(1.18) saturate(.72) brightness(.94) url(#halftone);
+  transition:opacity .5s var(--ease-out);transform:scale(1.04);}
+.trans-card:hover .trans-card__img img{opacity:0;}
+.trans-card:hover .trans-card__img .after{opacity:1;}
+.trans-card:hover .trans-card__img img,.trans-card:hover .trans-card__img .after{transform:scale(1.1);}
 /* cinematic vignette + top light */
 .trans-card__img::after{content:"";position:absolute;inset:0;pointer-events:none;
   background:linear-gradient(180deg,rgba(255,253,238,.08),transparent 26%,transparent 62%,rgba(16,16,17,.62));}
@@ -312,9 +330,13 @@ html[lang="en"] .si{display:none !important;}
 .pricing__grid.two{grid-template-columns:repeat(2,minmax(0,480px));}
 .pane{display:none;}
 .pane.on{display:block;}
-.price-card{border:1px solid rgba(255,253,238,.16);padding:38px 32px 42px;position:relative;display:flex;flex-direction:column;background:linear-gradient(180deg,rgba(255,253,238,.03),transparent);transition:transform .45s var(--ease-out),border-color .45s,box-shadow .45s;}
+.price-card{border:1px solid rgba(255,253,238,.16);padding:38px 32px 42px;position:relative;display:flex;flex-direction:column;background:transparent;transition:transform .45s var(--ease-out),border-color .45s,box-shadow .45s;}
+.price-card::before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(135deg,rgba(196,247,44,.08),rgba(196,247,44,.02));opacity:0;transition:opacity .45s var(--ease-out);border-radius:inherit;pointer-events:none;}
 .price-card:hover{transform:translateY(-6px);border-color:var(--volt);box-shadow:0 24px 60px rgba(0,0,0,.35);}
-.price-card--feat{border:2px solid var(--volt);background:linear-gradient(180deg,rgba(196,247,44,.09),transparent);}
+.price-card:hover::before{opacity:1;}
+.price-card--feat{border:2px solid var(--volt);}
+.price-card--feat::before{background:linear-gradient(135deg,rgba(196,247,44,.15),rgba(196,247,44,.05));}
+.price-card--feat::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(196,247,44,.09),transparent);pointer-events:none;border-radius:inherit;}
 .price-card__flag{position:absolute;top:-13px;left:26px;background:var(--volt);color:var(--ink);font-family:var(--font-mono);font-size:10px;letter-spacing:.22em;text-transform:uppercase;padding:6px 13px;font-weight:500;}
 .price-card__disc{font-family:var(--font-mono);font-size:11px;letter-spacing:.2em;color:var(--volt);border:1px solid rgba(196,247,44,.55);align-self:flex-start;padding:5px 10px;margin-bottom:22px;}
 .price-card h3{font-family:var(--font-ui);font-weight:700;font-size:clamp(19px,1.7vw,24px);margin-bottom:16px;letter-spacing:.04em;}
@@ -692,17 +714,17 @@ html[lang="en"] .si{display:none !important;}
   <div class="trans__grid">
     <a class="trans-card" href="https://www.2fit2fail.com/transformacije" target="_blank" rel="noopener" data-anim="card">
       <span class="trans-card__tag"><span class="si">Pred / Po</span><span class="en">Before / After</span></span>
-      <div class="trans-card__img" data-reveal><img src="https://www.2fit2fail.com/assets/img/transformacije/nejc.png" alt="Transformacija Nejc" loading="lazy"><div class="grain"></div></div>
+      <div class="trans-card__img" data-reveal><img src="https://www.2fit2fail.com/assets/img/transformacije/nejc.png" alt="Transformacija Nejc — Pred" loading="lazy"><img class="after" src="https://www.2fit2fail.com/assets/img/transformacije/nejc.png" alt="Transformacija Nejc — Po" loading="lazy"><div class="grain"></div></div>
       <div class="trans-card__bar"><h3>NEJC</h3><span class="trans-card__kg">−8 KG</span></div>
     </a>
     <a class="trans-card" href="https://www.2fit2fail.com/transformacije" target="_blank" rel="noopener" data-anim="card">
       <span class="trans-card__tag"><span class="si">Pred / Po</span><span class="en">Before / After</span></span>
-      <div class="trans-card__img" data-reveal><img src="https://www.2fit2fail.com/assets/img/transformacije/goran.png" alt="Transformacija Goran" loading="lazy"><div class="grain"></div></div>
+      <div class="trans-card__img" data-reveal><img src="https://www.2fit2fail.com/assets/img/transformacije/goran.png" alt="Transformacija Goran — Pred" loading="lazy"><img class="after" src="https://www.2fit2fail.com/assets/img/transformacije/goran.png" alt="Transformacija Goran — Po" loading="lazy"><div class="grain"></div></div>
       <div class="trans-card__bar"><h3>GORAN</h3><span class="trans-card__kg">−13 KG</span></div>
     </a>
     <a class="trans-card" href="https://www.2fit2fail.com/transformacije" target="_blank" rel="noopener" data-anim="card">
       <span class="trans-card__tag"><span class="si">Pred / Po</span><span class="en">Before / After</span></span>
-      <div class="trans-card__img" data-reveal><img src="https://www.2fit2fail.com/assets/img/transformacije/joze.png" alt="Transformacija Jože" loading="lazy"><div class="grain"></div></div>
+      <div class="trans-card__img" data-reveal><img src="https://www.2fit2fail.com/assets/img/transformacije/joze.png" alt="Transformacija Jože — Pred" loading="lazy"><img class="after" src="https://www.2fit2fail.com/assets/img/transformacije/joze.png" alt="Transformacija Jože — Po" loading="lazy"><div class="grain"></div></div>
       <div class="trans-card__bar"><h3>JOŽE</h3><span class="trans-card__kg">−10 KG</span></div>
     </a>
   </div>
@@ -1304,7 +1326,7 @@ function heroIn(){
     .from('.hero__meta',{y:-16,opacity:0,duration:.7},'-=.8')
     .from('.hero__sub',{y:22,opacity:0,duration:.7},'-=.7')
     .from('.hero__ctas',{y:22,opacity:0,duration:.7},'-=.55')
-    .from('.nav',{y:-24,opacity:0,duration:.8,ease:'power3.out',onComplete:()=>{gsap.set('.nav',{clearProps:'transform'});Nav.syncInd(false);}},'-=.6')
+    .from('.nav',{y:-24,opacity:0,duration:.8,ease:'power3.out',onComplete:()=>{gsap.set('.nav',{clearProps:'transform',opacity:1});Nav.syncInd(false);}},'-=.6')
     .from('.hero__scroll',{opacity:0,duration:.6},'-=.4');
 }
 
