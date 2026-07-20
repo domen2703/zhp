@@ -193,14 +193,11 @@ html[lang="en"] .si{display:none !important;}
   width:clamp(300px,34vw,520px);pointer-events:none;will-change:transform;
 }
 .hero__portrait .frame{position:relative;clip-path:inset(0 0 0 0);}
-.hero__portrait img{width:100%;filter:contrast(1.6) brightness(1.08) saturate(1.1);mix-blend-mode:screen;}
-.stats__portrait .frame img{width:100%;filter:contrast(1.6) brightness(1.08) saturate(1.1);mix-blend-mode:screen;}
-/* cinematic light: warm key from top-left, ink ground shadow, rim */
-.hero__portrait .light{position:absolute;inset:0;pointer-events:none;
-  background:
-    linear-gradient(205deg,rgba(255,253,238,.42),transparent 42%),
-    radial-gradient(60% 34% at 50% 100%,rgba(35,31,32,.30),transparent 70%);
-  mix-blend-mode:soft-light;}
+.hero__portrait img{width:100%;position:relative;z-index:2;filter:contrast(1.35) brightness(1.02);}
+/* lime backlight glow behind portrait, scaled to silhouette not a hard box */
+.hero__portrait::before{content:"";position:absolute;left:50%;top:38%;transform:translate(-50%,-50%);
+  width:82%;aspect-ratio:1;border-radius:50%;z-index:0;pointer-events:none;
+  background:radial-gradient(closest-side,rgba(23,20,21,.20),transparent 72%);}
 .hero__portrait::after{content:"";position:absolute;inset:auto -16% -4% -16%;height:40%;
   background:linear-gradient(180deg,transparent,var(--volt) 84%);}
 .hero__title{position:relative;z-index:2;margin-top:clamp(120px,26vh,260px);}
@@ -283,7 +280,7 @@ html[lang="en"] .si{display:none !important;}
 
 /* ================= STATS ================= */
 .stats{background:linear-gradient(180deg,var(--ink-deep),#2a2627);color:var(--bone);position:relative;overflow:hidden;padding:clamp(84px,10vw,140px) var(--pad) 0;}
-.stats__grid{display:grid;grid-template-columns:1fr minmax(280px,440px) 1fr;gap:clamp(24px,4vw,64px);align-items:end;}
+.stats__grid{display:grid;grid-template-columns:.85fr minmax(340px,540px) .85fr;gap:clamp(24px,4vw,64px);align-items:end;}
 .stats__col{display:grid;gap:clamp(44px,7vh,90px);padding-bottom:clamp(60px,8vw,110px);}
 .stats__col--r{text-align:right;}
 .stat b{font-family:var(--font-display);font-weight:700;font-size:clamp(46px,5.6vw,88px);color:var(--bone);display:block;line-height:1;}
@@ -291,9 +288,15 @@ html[lang="en"] .si{display:none !important;}
 .stat span{display:block;margin-top:12px;font-size:13px;color:var(--bone-soft);max-width:240px;line-height:1.6;}
 .stats__col--r .stat span{margin-left:auto;}
 .stats__portrait{position:relative;align-self:end;will-change:transform;}
-.stats__portrait .light{position:absolute;inset:0;pointer-events:none;
-  background:linear-gradient(200deg,rgba(255,253,238,.30),transparent 40%),linear-gradient(0deg,rgba(23,20,21,.55),transparent 34%);
-  mix-blend-mode:soft-light;}
+.stats__portrait .frame{position:relative;}
+.stats__portrait .frame img{width:100%;position:relative;z-index:2;filter:contrast(1.3) brightness(1.15);}
+/* strong lime backlight so the dark silhouette reads against the dark section */
+.stats__portrait::before{content:"";position:absolute;left:50%;bottom:2%;transform:translateX(-50%);
+  width:120%;height:78%;z-index:0;pointer-events:none;
+  background:radial-gradient(closest-side,rgba(196,247,44,.55),rgba(196,247,44,.14) 55%,transparent 78%);
+  filter:blur(6px);}
+.stats__portrait .frame::after{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;
+  box-shadow:inset 0 0 80px 20px rgba(196,247,44,.10);}
 .stats__label{position:absolute;top:4%;left:50%;transform:translateX(-50%);font-family:var(--font-mono);font-size:10.5px;letter-spacing:.34em;text-transform:uppercase;color:var(--volt);white-space:nowrap;z-index:2;}
 
 /* ================= MARQUEE ================= */
@@ -525,7 +528,6 @@ html[lang="en"] .si{display:none !important;}
     <div class="hero__portrait" id="heroPortrait">
       <div class="frame" id="heroFrame">
         <img src="assets/zhp.png" alt="Žan Hočevar Peganc — osebni trener" fetchpriority="high">
-        <div class="light"></div>
         <div class="grain"></div>
       </div>
     </div>
@@ -694,7 +696,6 @@ html[lang="en"] .si{display:none !important;}
       <span class="stats__label">ŽAN — 2FIT2FAIL</span>
       <div class="frame">
         <img src="assets/zhp.png" alt="Žan Hočevar Peganc" loading="lazy">
-        <div class="light"></div>
         <div class="grain"></div>
       </div>
     </div>
